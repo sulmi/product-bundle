@@ -3,7 +3,7 @@
 Small Symfony 3 application provides basic functionality for the product, such as navigations, cataloging of products and in terms of the basic functionalities related to CRUD. Tested only in Linux.
 
 ## Requirements
----
+
 * AsseticBundle
 * StofDoctrineExtensionsBundle
 * LiipImagineBundle
@@ -13,7 +13,6 @@ Small Symfony 3 application provides basic functionality for the product, such a
 * StfalconTinymceBundle
 
 ## Installation
----
 
 #### Using [composer](http://getcomposer.org)
 
@@ -79,7 +78,7 @@ public function registerBundles() {
 ```
 
 ## Configuration
----
+
 #### Assetic, Security, AditionalBundles configurations
 
 All configs a collected in files and you need to import them to default config file ```/app/config/config.yml```
@@ -221,7 +220,7 @@ If using Debian Linux.
 
 mkdir web/upload
 
-sudo chmod 0775 web/upload
+sudo chmod 0755 web/upload
 
 # In most cases, this is Apache and then command is similar to this:
 # sudo chown www-data:www-data web/upload
