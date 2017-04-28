@@ -1,0 +1,32 @@
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+    twig_extensions.twig_extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+# 
+    sulmi_product.language.menu.twig_extension:
+        class: Sulmi\ProductBundle\Twig\Extension\ProductLanguageMenuTwigExtension
+        arguments:
+            - '@service_container'
+            - '@request_stack'
+        tags:
+            - { name: twig.extension }
+# 
+    sulmi_product.render.media.twig_extension:
+        class: Sulmi\ProductBundle\Twig\Extension\ProductMediaShowTwigExtension
+        tags:
+            - { name: twig.extension }
+# 
+    sulmi_product.render.product.twig_extension:
+        class: Sulmi\ProductBundle\Twig\Extension\ProductShowTwigExtension
+        tags:
+            - { name: twig.extension }
+# 
+    sulmi_product.render.role.twig_extension:
+        class: Sulmi\ProductBundle\Twig\Extension\ProductShowRole
+        tags:
+            - { name: twig.extension }

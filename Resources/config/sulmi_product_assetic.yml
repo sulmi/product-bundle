@@ -1,0 +1,74 @@
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+#    bundles: [ ]
+    bundles: [ SulmiProductBundle ]
+    filters:
+        cssrewrite: ~
+        jsqueeze: ~
+    assets:
+        font-glyphicons-ttf:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/glyphicons-halflings-regular.ttf'
+            output: 'fonts/glyphicons-halflings-regular.ttf'
+        font-glyphicons-woff:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/glyphicons-halflings-regular.woff'
+            output: 'fonts/glyphicons-halflings-regular.woff'
+        font-glyphicons-woff2:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/glyphicons-halflings-regular.woff2'
+            output: 'fonts/glyphicons-halflings-regular.woff2'
+#
+        fontawesome-webfont-ttf:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/fontawesome-webfont.ttf'
+            output: 'fonts/fontawesome-webfont.ttf'
+        fontawesome-webfont-woff:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/fontawesome-webfont.woff'
+            output: 'fonts/fontawesome-webfont.woff'
+        fontawesome-webfont-woff2:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/fontawesome-webfont.woff2'
+            output: 'fonts/fontawesome-webfont.woff2'
+        loadinggif:
+            inputs: '@SulmiProductBundle/Resources/public/img/loading.gif'
+            output: 'img/loading.gif'
+        play-pausesvg:
+            inputs: '@SulmiProductBundle/Resources/public/img/play-pause.png'
+            output: 'img/play-pause.svg'
+        play-pausepng:
+            inputs: '@SulmiProductBundle/Resources/public/img/play-pause.png'
+            output: 'img/play-pause.png'
+        noimagepng:
+            inputs: '@SulmiProductBundle/Resources/public/images/noimage.png'
+            output: 'images/noimage.png'
+        video-playsvg:
+            inputs: '@SulmiProductBundle/Resources/public/img/video-play.png'
+            output: 'img/video-play.svg'
+        video-playpng:
+            inputs: '@SulmiProductBundle/Resources/public/img/video-play.png'
+            output: 'img/video-play.png'
+        errorsvg:
+            inputs: '@SulmiProductBundle/Resources/public/img/error.png'
+            output: 'img/error.svg'
+        border-imagepng:
+            inputs: '@SulmiProductBundle/Resources/public/img/border-image.png'
+            output: 'img/border-image.png'
+        iconspng:
+            inputs: '@SulmiProductBundle/Resources/public/img/icons.png'
+            output: 'img/icons.png'
+
+        ui-icons-444444-256x240png:
+            inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_444444_256x240.png'
+            output: 'css/images/ui-icons_444444_256x240.png'
+        ui-icons-555555-256x240png:
+            inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_555555_256x240.png'
+            output: 'css/images/ui-icons_555555_256x240.png'
+        ui-icons-777620-256x240png:
+            inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_777620_256x240.png'
+            output: 'css/images/ui-icons_777620_256x240.png'
+        ui-icons-777777-256x240png:
+            inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_777777_256x240.png'
+            output: 'css/images/ui-icons_777777_256x240.png'
+        ui-icons-cc0000-256x240png:
+            inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_cc0000_256x240.png'
+            output: 'css/images/ui-icons_cc0000_256x240.png'
+        ui-icons-ffffff-256x240png:
+            inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_ffffff_256x240.png'
+            output: 'css/images/ui-icons_ffffff_256x240.png'

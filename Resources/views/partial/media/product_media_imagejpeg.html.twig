@@ -1,0 +1,10 @@
+{% if media_size is null %}
+<img src="{{ media.filePath | imagine_filter('product90') }}" />    
+{% else %}
+<img src="{{ media.filePath | imagine_filter('product800') }}" />
+{% endif %}
+
+
+                                           
+
+

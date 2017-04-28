@@ -1,0 +1,13 @@
+{#{{ dump(languages) }}#}
+{% if languages is iterable %}
+    <li>
+        <a href="#"><span class="fa fa-globe"></span> <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            {% for language in languages if languages %}
+                <li{% if language.classActive %} class="active"{% endif %}><a href="{{ language.url }}">{{ language.transKey }}</a></li>
+            {% endfor %}
+            <li class="divider" role="separator"></li>
+            <li><a href="#">{{ 'nav.label.help.lang'|trans }}</a></li>
+        </ul>
+    </li>
+{% endif %}

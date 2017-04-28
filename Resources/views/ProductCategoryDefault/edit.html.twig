@@ -1,0 +1,32 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} {{ 'product.list'|trans }}{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Productcategory edit</h1>
+{#    {{ dump(productCategory) }}#}
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+    <div class="row">
+        <div class="col-xs-12"> 
+            <a class="btn btn-default btn-sm" role="button" href="{{ path('sulmi_product_category_index') }}">Back to the list</a>
+            <a class="btn btn-default btn-sm" role="button" href="{{ path('product_new_in_category', { 'id':productCategory.id }) }}">Nowy produkt</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12"> 
+{#            <a class="btn btn-info btn-sm pull-left" role="button" href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>#}
+            {{ form_start(delete_form) }}
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %}{{ 'action.edit' | trans }}: {{ edit_form.vars['value'].name }}{{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% form_theme edit_form 'SulmiProductBundle:Product:form/fields.html.twig' %}
+{% block body %}
+
+    <div class="col-xs-12">    
+        <h1>{{ 'action.edit' | trans }}: {{ edit_form.vars['value'].name }}</h1>
+        <hr>
+    </div>    
+
+    <div class="col-xs-12">
+        {% if categories is not null %}
+            {% for category in categories %}
+                <a role="button" class="btn btn-default" href="{{ path('category_default_language', { 'categoryslug':category.slug,'id':category.id }) }}">
+                    {{ category.title }}
+                </a>
+            {% endfor %}
+            <hr>
+        {% endif %}
+    </div>
+    <div class="col-xs-12"> 
+        {{ form_start(edit_form) }}             
+
+        <div class="row">            
+            <div class="col-xs-12">            
+                <button class="btn btn-default btn-sm outline pull-left" name="submit" type="submit">{{ 'action.accept' | trans }}</button>  
+                <a class="btn btn-default btn-sm outline pull-left" href="{{ path('sulmi_product_index') }}">{{ 'action.back_to_product_list' | trans }}</a>
+            </div>  
+        </div>         
+        <div class="row"> 
+            <div class="col-xs-10">            
+                {{ form_row(edit_form.name) }}
+            </div>  
+            <div class="col-xs-2">            
+                {{ form_row(edit_form.price) }}
+            </div> 
+        </div>
+
+        <div class="row">            
+            <div class="col-xs-12">            
+                {{ form_row(edit_form.description) }}
+            </div>  
+        </div>         
+        {{ form_end(edit_form) }}
+
+    </div>
+    <hr>
+    <div class="col-xs-12" id="action_add_product_container" style="max-height: 30em;overflow-y: auto;"></div>
+    <div class="col-xs-12" id="navigation-container" style="max-height: 20em;overflow-y: auto;">
+        {{ knp_menu_render('SulmiProductBundle:Builder:mainMenu',{'template': '@SulmiProductBundle/menu_admin.html.twig'}) }}
+    </div>
+    <hr>
+    <div class="col-xs-12">
+        {{ form_start(delete_form) }}
+        <button class="btn btn-default btn-sm outline" name="submit" type="submit">Usuń</button>
+        {{ form_end(delete_form) }}
+    </div>
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    {{ tinymce_init() }}
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('div').filter(function () {
+                return this.id.match(/node\-\d+/);
+            }).each(function () {
+                newButton(this);
+            });
+
+            $('#action_edit').on("click", null, function (event) {
+                if ($(this).hasClass('btn-default')) {
+                    $(this).text('Anuluj edycję').switchClass("btn-default", "btn-success");
+                    var rp = getRouteParams();
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('sulmi_product_category_index_ajax') }}' + rp[0] + '/edit'
+                    }).done(function (data) {
+                        $('#action_edit_form')
+                            .html(data)
+                            .parent()
+                            .removeClass('hide')
+                            .find('form').each(function () {
+                            editCatAjaxFormInit(this);
+                            $(this).find('input').first().css({width: '100%'});
+                        });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+                }
+                else if ($(this).hasClass('btn-success')) {
+                    $(this).html('<span class="fa fa-edit"></span> Edytuj');
+                    $(this).switchClass("btn-success", "btn-default");
+                    $('#action_edit_form').parent().addClass('hide');
+                }
+            });
+
+        });
+
+        function newButton(btn) {
+            $(btn).off('click').on("click", null, function (event) {
+
+
+                if ($(this).hasClass('btn-default')) {
+                    //dadawaj do tej kategorii
+                    $(this).switchClass('btn-default', 'btn-success');
+
+                    $('#select_node_id').html($(this).attr('id'));
+                    $('#select_node_id_label').html($(this).text());
+                    $('#action_edit').html('<span class="fa fa-edit"></span> Edytuj <span class="text-success">' + $(this).text() + '</span>').parent().removeClass('hide');
+
+                    $('#btn_reset').parent().removeClass('hide');
+
+                    if ($('#select_node_id').html().length > 1) {
+                        $('div').filter(function () {
+                            return this.id.match(/node\-\d+/);
+                        }).each(function () {
+                            if (this.id !== $('#select_node_id').html()) {
+                                $(this).switchClass('btn-success', 'btn-default');
+                                $(this).off('click').on('click', null, function (event) {
+                                    $(this).switchClass('btn-default', 'btn-danger');
+                                    $('#select_command_node_id').html($(this).attr('id'));
+
+                                    $('div').filter(function () {
+                                        return this.id.match(/node\-\d+/);
+                                    }).each(function () {
+                                        if (this.id !== $('#select_command_node_id').html()) {
+                                            $(this).switchClass('btn-danger', 'btn-default');
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    }
+                }
+                else if ($(this).hasClass('btn-success')) {
+                    $(this).switchClass('btn-success', 'btn-default');
+                }
+            });
+        }
+
+
+        function initButtons() {
+            $('div').filter(function () {
+                return this.id.match(/node\-\d+/);
+            }).each(function () {
+                $(this).switchClass('btn-success', 'btn-default');
+                $(this).switchClass('btn-danger', 'btn-default');
+                newButton(this);
+            });
+        }
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+
+{% block body %}
+    <h1>Productmedia list for spec Product</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Filepath</th>
+                <th>Size</th>
+                <th>Mime</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for productMedia in productMedia %}
+            <tr>
+                <td><a href="{{ path('sulmi_product_productmedia_show', { 'id': productMedia.id }) }}">{{ productMedia.id }}</a></td>
+                <td>{{ productMedia.filePath }}</td>
+                <td>{{ productMedia.size }}</td>
+                <td>{{ productMedia.mime }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sulmi_product_productmedia_show', { 'id': productMedia.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('productmedia_edit', { 'id': productMedia.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('productmedia_new') }}">Create a new productMedia</a>
+        </li>
+    </ul>
+{% endblock %}

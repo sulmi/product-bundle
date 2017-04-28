@@ -1,0 +1,28 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} {{ 'product.list'|trans }}{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Product creation</h1>
+    {% form_theme form with ['SulmiProductBundle:Product:form/fields.html.twig'] %}
+    <div class="col-md-12"> 
+        {{ form_start(form) }}
+        <input type="submit" value="Dodaj nowy" />
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div> 
+    <div class="col-md-12">
+        {# Ajax response cantainer #}
+        <a class="btn btn-default btn-sm" href="{{ path('sulmi_product_index') }}">Back to the list</a>
+        <div class="row" id="newMediaFormSlot"></div>
+    </div>
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    {{ tinymce_init() }}
+{% endblock %}

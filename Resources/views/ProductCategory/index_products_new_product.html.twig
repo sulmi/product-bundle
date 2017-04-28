@@ -1,0 +1,27 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} {{ 'product.list'|trans }}{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>{{ category.title }}: Produkty</h1>
+    {% form_theme edit_form with 'SulmiProductBundle:Product:form/fields.html.twig' %}
+    <div class="row">
+        <div class="col-sm-12"> 
+            <h4>Nowy produkt</h4>
+            {{ form_start(edit_form) }}
+            <button class="btn btn-default btn-sm" type="submit" >Akceptuj</button>
+            <a class="btn btn-default btn-sm" role="button" href="{{ path('sulmi_product_category_index') }}">Wszystkie kategorie</a>
+            {{ form_widget(edit_form) }}
+            {{ form_end(edit_form) }}
+        </div> 
+    </div>
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    {{ tinymce_init() }}
+{% endblock %}

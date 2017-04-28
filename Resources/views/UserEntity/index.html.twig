@@ -1,0 +1,98 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} Wszystkie media{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Lista uzytkowników Pakietu SulmiProductBundle</h1>
+    <hr>
+    <a class="btn btn-success btn-sm" role="button" href="{{ path('productmedia_new') }}">Create a new productMedia</a>
+    <hr>
+    <ul class="list-inline">
+        <li>
+            <a href="{{ path('sulmi_product_userentity_new') }}">Create a new userEntity</a>
+        </li>
+    </ul>
+    <hr>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Pass</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for userEntity in userEntities %}
+                <tr>
+                    <td><a href="{{ path('userentity_show', { 'id': userEntity.id }) }}">{{ userEntity.id }}</a></td>
+                    <td>{{ userEntity.name }}</td>
+                    <td>{{ userEntity.email }}</td>
+                    <td>{{ userEntity.pass }}</td>
+                    <td>{{ render_product_role(userEntity.roles) }}</td>
+                    <td>
+                        <a class="btn btn-default btn-sm pull-left" role="button" href="{{ path('userentity_show', { 'id': userEntity.id }) }}">Zobacz</a>
+                        <a class="btn btn-info btn-sm" role="button" href="{{ path('sulmi_product_sulmi_product_userentity_delete', { 'id': userEntity.id }) }}">edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            ajaxSortLinks('#container-sort-link');
+            ajaxPaginationMedias('#medias-pagination-up');
+            ajaxPaginationMedias('#medias-pagination');
+        });
+        function ajaxSortLinks(selector) {
+            $(selector).find('a').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    var url = $(this).attr('href');
+                    $.ajax({
+                        type: 'post',
+                        url: url
+                    }).done(function (data) {
+                        $('#medias-container').html(data);
+                        ajaxSortLinks('#container-sort-link');
+                        ajaxPaginationMedias('#medias-pagination-up');
+                        ajaxPaginationMedias('#medias-pagination');
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#images-dialog').dialog();
+                    });
+                });
+            });
+        }
+        function ajaxPaginationMedias(paginContainer) {
+            $(paginContainer).find('ul').each(function () {
+                $(this).children().each(function () {
+                    $(this).children().first('a').off('click').on('click', null, function (event) {
+                        event.preventDefault();
+                        var url = $(this).attr('href');
+                        $.ajax({
+                            type: 'post',
+                            url: url
+                        }).done(function (data) {
+                            $('#medias-container').html(data);
+                            ajaxSortLinks('#container-sort-link');
+                            ajaxPaginationMedias('#medias-pagination-up');
+                            ajaxPaginationMedias('#medias-pagination');
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            $('#images-dialog').dialog();
+                        });
+                    });
+                });
+            });
+        }
+    </script>
+{% endblock %}

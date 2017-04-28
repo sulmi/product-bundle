@@ -1,0 +1,4 @@
+{% extends '@SulmiProductBundle/knp_menu.html.twig' %}
+{% block linkElement %}{% import _self as knp_menu %}<a href="{{ item.uri | replace({'/pl/': '/'}) }}">{{ block('label')|raw }}{% if item.hasChildren()  %} <span class="caret"></span>{% endif %}</a>{% endblock %}
+    
+{% block spanElement %}<span>{{ block('label') }}</span>{% endblock %}

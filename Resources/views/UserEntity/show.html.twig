@@ -1,0 +1,110 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} Użytkownik{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Użytkownik</h1>
+    <hr>
+    <a class="btn btn-success btn-sm" role="button" href="{{ path('productmedia_new') }}">Create a new productMedia</a>
+    <hr>
+    <ul class="list-inline">
+        <li>
+            <a href="{{ path('sulmi_product_userentity_new') }}">Create a new userEntity</a>
+        </li>
+    </ul>
+    <hr>
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ userEntity.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ userEntity.name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ userEntity.email }}</td>
+            </tr>
+            <tr>
+                <th>Pass</th>
+                <td>{{ userEntity.pass }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ render_product_role(userEntity.roles) }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sulmi_product_userentity_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('sulmi_product_sulmi_product_userentity_delete', { 'id': userEntity.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            ajaxSortLinks('#container-sort-link');
+            ajaxPaginationMedias('#medias-pagination-up');
+            ajaxPaginationMedias('#medias-pagination');
+        });
+        function ajaxSortLinks(selector) {
+            $(selector).find('a').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    var url = $(this).attr('href');
+                    $.ajax({
+                        type: 'post',
+                        url: url
+                    }).done(function (data) {
+                        $('#medias-container').html(data);
+                        ajaxSortLinks('#container-sort-link');
+                        ajaxPaginationMedias('#medias-pagination-up');
+                        ajaxPaginationMedias('#medias-pagination');
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#images-dialog').dialog();
+                    });
+                });
+            });
+        }
+        function ajaxPaginationMedias(paginContainer) {
+            $(paginContainer).find('ul').each(function () {
+                $(this).children().each(function () {
+                    $(this).children().first('a').off('click').on('click', null, function (event) {
+                        event.preventDefault();
+                        var url = $(this).attr('href');
+                        $.ajax({
+                            type: 'post',
+                            url: url
+                        }).done(function (data) {
+                            $('#medias-container').html(data);
+                            ajaxSortLinks('#container-sort-link');
+                            ajaxPaginationMedias('#medias-pagination-up');
+                            ajaxPaginationMedias('#medias-pagination');
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            $('#images-dialog').dialog();
+                        });
+                    });
+                });
+            });
+        }
+    </script>
+{% endblock %}
+

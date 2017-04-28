@@ -1,0 +1,15 @@
+{% for product in products %}
+    {% set prod=product[0] %}
+    <div class="col-sm-6 thumbnail text-center">
+        {% if product[1] is not null  %}
+            {{ render_media90(product[1]) }}
+        {% else %}
+            {% include 'SulmiProductBundle::partial/product_no_media.html.twig' %}
+        {% endif %}
+    </div> 
+    <div style="padding: 1em;" class="col-sm-6 text-left" id="productsmall-{{ prod.id }}">
+        {{ prod.name }}
+    </div> 
+{% endfor %}
+
+

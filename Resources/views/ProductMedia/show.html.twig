@@ -1,0 +1,43 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} {{ 'product.list'|trans }}{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <div class="container-fluid">
+            <h1>Productmedia</h1>
+            {% if product is not null and product.id is not null %}
+                <hr>
+                {% for productCategory in productCategories %}
+                    <a href="{{ path('category_default_language', { 'id':productCategory.id, 'categoryslug':productCategory.slug }) }}" class="linked">{{ productCategory.title }}</a>{% if not loop.last %} | {% endif %} 
+                {% endfor %}
+                <hr>
+                <a href="{{ path('product_default_language', { 'id':product.id, 'slug':product.slug }) }}" class="linked">{{ product.name }}</a> 
+            {% else %}
+                <div class="row danger">
+                    Brak powiązanych produktów.
+                </div>
+            {% endif %}
+            <hr>
+        </div>
+        <div class="container-fluid">
+            {#    {{ form_start(delete_form) }}
+                <button type="submit" class="btn btn-danger btn-sm pull-left">Usuń</button>
+                {{ form_end(delete_form) }}#}
+            <a class="btn btn-success btn-sm pull-left" role="button" href="{{ path('sulmi_product_productmedia_index') }}">Powrót do listy</a>
+            <a class="btn btn-info btn-sm pull-left" role="button" href="{{ path('productmedia_edit', { 'id': productMedia.id }) }}">Edytuj</a>
+            <a href="/{{ productMedia.filePath }}" class="btn btn-link btn-sm" role="button" href="{{ path('sulmi_product_productmedia_index') }}">{{ productMedia.filePath | replace({'upload/':''}) }}</a>
+        </div>
+        <div class="container-fluid">
+            <hr>
+            {{ productMedia.filePath | replace({'upload/':''}) }} Mime:{{ productMedia.mime }}
+            <hr>
+            {{ render_media800(productMedia,'800') }}
+        </div>
+    </div>
+{% endblock %}

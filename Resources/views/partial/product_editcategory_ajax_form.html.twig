@@ -1,0 +1,9 @@
+{% form_theme form with ['SulmiProductBundle:Product:form/fields.html.twig'] %}
+
+{{ form_start(form) }}
+<input class="btn-block" type="submit" value="Akceptuj" />
+<div>{{ form_label(form.title) }}</div>
+<div>{{ form_errors(form.title) }}</div>
+<div>{{ form_widget(form.title, {'attr': {'style': 'width:100%'} }) }}</div>
+{{ form_end(form) }}
+

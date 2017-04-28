@@ -1,0 +1,90 @@
+{% if images is not null or videos is not null or medias is not null %}
+    {% set hasmedia=true %}{% else %}{% set hasmedia=false %}    
+{% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+    {% set is_granted=true %}{% else %}{% set is_granted=false %}
+{% endif %}
+
+{% if hasmedia or is_granted %}<div id="tabs">{% endif %}    
+        {% if hasmedia or is_granted %}<ul>{% endif %}
+            {% if images %}
+                <li><a href="#images"><span class="fa fa-image"></span> Galeria</a></li>
+                {% endif %}
+                {% if videos %}
+                <li><a href="#video"><span class="fa fa-film"></span> Filmy</a></li>
+                {% endif %}
+                {% if medias %}
+                <li><a href="#doc"><span class="fa fa-file"></span> Dokumenty</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                <li><a href="#dashboard"><span class="fa fa-gear"></span></a></li>
+                    {% endif %}
+        {% if hasmedia or is_granted %}</ul>{% endif %}
+        {% if images %}
+            <div id="gallery" class="container-fluid text-center" style="margin: 0px;max-height: 700px;overflow-y: auto;">
+                <div id="images" style="padding: 26px 0px 0px 10px;">
+                    {% for image in images if images %}
+                        {% if loop.index == 1 %}
+                            <a href="{{ image.filePath | imagine_filter('product800') }}">
+                                <img class="img-thumbnail" style="margin-left: -3px;width: 308px;" src="{{ image.filePath | imagine_filter('product270') }}" alt="{{  image.filePath|replace({ 'upload\/': "" }) }}" />
+                            </a>
+                        {% else %}
+                            <a href="{{ image.filePath | imagine_filter('product800') }}">
+                                <img class="img-thumbnail" style="margin-left: -4px;" src="{{ image.filePath | imagine_filter('product96') }}" alt="{{  image.filePath|replace({ 'upload\/': "" }) }}" />
+                            </a>            
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if videos %}
+            <div id="video" class="container-fluid text-center" style="max-height: 700px;overflow-y: auto;padding: 26px 0px 0px 10px;">
+                {% for video in videos %}
+                    <div class="thumbnail">
+                        {% if video.thumbs %}
+                            {% set paththumb= video.filePath~"-1.jpeg" %}
+                            <div class="text-center">
+                                <video width="300" height="200" id="sampleMovie" src="/{{ video.filePath }}" controls></video>
+                            </div>
+                            <div class="text-center">
+                                <a title="{{  video.filePath|replace({ 'upload\/': "" }) }}" class="links" href="/{{ video.filePath }}">
+                                    {{  video.filePath|replace({ 'upload\/': "" })|truncate(80) }}
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="container-fluid text-center">                    
+                                <a title="{{  video.filePath|replace({ 'upload\/': "" }) }}" class="links" href="/{{ video.filePath }}">
+                                    {{  video.filePath|replace({ 'upload\/': "" })|truncate(80) }}
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div class="container-fluid text-center">
+                            <a href="{{ path('sulmi_product_productmedia_show', { 'id': video.id }) }}" class="btn btn-primary btn-sm" role="button">show</a> 
+                            <a href="{{ path('productmedia_edit', { 'id': video.id }) }}" class="btn btn-default btn-sm" role="button">edit</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if medias %}
+            <div id="doc" class="container-fluid" style="max-height: 700px;overflow-y: auto;padding: 30px 40px 30px 20px;">
+                {% for media in medias %}
+                    <div class="row">                
+                        {% if loop.index > 1 %}<hr>{% endif %}
+                        <a class="linked" href="/{{ media.filePath }}">
+                            {{  media.filePath | replace({ 'upload\/': "" }) }}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% if is_granted %}
+        <div id="dashboard">
+            <div class="container-fluid">
+                <a class="btn btn-default btn-sm" id="btnAjaxShowNewMediaForm" role="button" href="#">Wyslij pliki</a>
+                <a class="btn btn-default btn-sm" role="button" href="{{ path('sulmi_product_index') }}">Back to the list</a>
+                <a class="btn btn-info btn-sm" role="button" href="{{ path('product_edit', { 'id': product.id }) }}">Edit</a>
+            </div>
+        </div>
+    {% endif %}
+{% if hasmedia or is_granted  %}</div>{% endif %}

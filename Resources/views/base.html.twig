@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %} | Product{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets
+"@SulmiProductBundle/Resources/public/css/bootstrap.css" 
+"@SulmiProductBundle/Resources/public/css/font-awesome.min.css" 
+"@SulmiProductBundle/Resources/public/css/sticky-footer.css"
+"@SulmiProductBundle/Resources/public/css/jquery.smartmenus.bootstrap.css"
+"@SulmiProductBundle/Resources/public/css/jquery-ui.min.css"
+"@SulmiProductBundle/Resources/public/css/blueimp-gallery.min.css"
+"@SulmiProductBundle/Resources/public/css/blueimp-gallery-indicator.css"
+"@SulmiProductBundle/Resources/public/css/blueimp-gallery-video.css"
+"@SulmiProductBundle/Resources/public/css/style.css"
+            %}
+            <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+            {% endstylesheets %}
+
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+        {#  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />#}
+    </head>
+    <body>
+        {% block nav %}
+            <!-- Navbar fixed top -->
+            <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('sulmi_product_homepage_lang') }}">Product</a>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navleft">
+
+                        <!-- Left nav -->
+                        {{ knp_menu_render('SulmiProductBundle:Builder:mesterMenu', {'currentClass': 'active', 'template': '@SulmiProductBundle/menu.html.twig'}) }}
+                        <!-- Right nav -->
+                        <ul class="nav navbar-nav navbar-right" id="navsearch">
+                            <li>
+                                {{ render(controller('SulmiProductBundle:ProductSearchDefault:renderBlankSearchForm')) }}
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right" id="navr">
+                            {% if not is_granted('ROLE_ADMIN') %}
+                                <li><a href="{{ path('security_login') }}"{{ app.request.get('_route') == 'security_login' ? ' class="active"' : '' }}><span class="fa fa-sign-in"></span> {{ 'login.label'|trans }}</a></li>
+                                {% else %}
+                                <li>
+                                    <a href="#"{{ app.request.get('_route') == 'security_logout' ? ' class="active"' : '' }}><span class="fa fa-paint-brush"></span> <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path('sulmi_product_category_index') }}">Kategorie</a></li>
+                                        <li>
+                                            <a href="{{ path('sulmi_product_index') }}"><span class="caret"></span> Produkty</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{{ path('sulmi_product_product_new') }}"><span class="fa fa-plus-circle"> </span> Nowy</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('sulmi_product_productmedia_index') }}">Media</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('sulmi_product_userentity_index') }}">Users</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Strefa użytkownika</li>
+                                        <li>
+                                            <a href="{{ path('security_logout') }}"{{ app.request.get('_route') == 'security_logout' ? ' class="active"' : '' }}>{{ 'loginout.label'|trans }}</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                            {{ render_language_menu() }}
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container -->
+            </div>
+        {% endblock %}
+        <div class="container" style="margin-top:70px;">
+            {% block search %}
+                <section id="search-results">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12" id="search-results">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endblock %}
+            {% block body %}
+{#                {{ render_language_menu() }}#}
+                {# {{ include('default/_flash_messages.html.twig') }} F#}
+            {% endblock %}
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted">Sumi Product Bundle 2017.</span>
+            </div>
+        </footer>  
+{#'@SulmiProductBundle/Resources/public/js/jquery.jscroll.min.js'#}
+        {% block footerjavascripts %}
+            {% javascripts 
+'@SulmiProductBundle/Resources/public/js/jquery-3.1.0.min.js'
+'@SulmiProductBundle/Resources/public/js/bootstrap.min.js' 
+'@SulmiProductBundle/Resources/public/js/jquery-ui.min.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.smartmenus.min.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.smartmenus.bootstrap.min.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.knob.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.ui.widget.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.iframe-transport.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.fileupload.js' 
+'@SulmiProductBundle/Resources/public/js/jquery.blueimp-gallery.min.js'
+'@SulmiProductBundle/Resources/public/js/blueimp-gallery.min.js'
+'@SulmiProductBundle/Resources/public/js/blueimp-gallery-fullscreen.js'
+'@SulmiProductBundle/Resources/public/js/blueimp-gallery-indicator.js'
+'@SulmiProductBundle/Resources/public/js/blueimp-gallery-video.js'
+'@SulmiProductBundle/Resources/public/js/blueimp-gallery-vimeo.js'
+'@SulmiProductBundle/Resources/public/js/blueimp-gallery-youtube.js'
+'@SulmiProductBundle/Resources/public/js/demo.js'
+'@SulmiProductBundle/Resources/public/js/form.js'
+'@SulmiProductBundle/Resources/public/js/jquery.infinitescroll.min.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+            <script type="text/javascript">
+                $(function () {
+                    ajaxSortLinks('#container-sort-link');
+                    ajaxPaginationMedias('#medias-pagination-up');
+                    ajaxPaginationMedias('#medias-pagination');
+
+                    $('#navsearch').find('form').each(function () {
+                        $(this).ajaxForm({
+                            target: '#search-results',
+                            url: '{{ path('search_default_language') }}',
+                            success: function (data) {
+                            }
+                        });
+                    });
+                });
+                function ajaxSortLinks(selector) {
+                    $(selector).find('a').each(function () {
+                        $(this).off('click').on('click', null, function (event) {
+                            event.preventDefault();
+                            var url = $(this).attr('href');
+                            $.ajax({
+                                type: 'post',
+                                url: url
+                            }).done(function (data) {
+                                $('#products-container').html(data);
+                                ajaxSortLinks('#container-sort-link');
+                                ajaxPaginationMedias('#medias-pagination-up');
+                                ajaxPaginationMedias('#medias-pagination');
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                $('#error-dialog').dialog();
+                            });
+                        });
+                    });
+                }
+                function ajaxPaginationMedias(paginContainer) {
+                    $(paginContainer).find('ul').each(function () {
+                        $(this).children().each(function () {
+                            $(this).children().first('a').off('click').on('click', null, function (event) {
+                                event.preventDefault();
+                                var url = $(this).attr('href');
+                                $.ajax({
+                                    type: 'post',
+                                    url: url
+                                }).done(function (data) {
+                                    $('#products-container').html(data);
+                                    ajaxSortLinks('#container-sort-link');
+                                    ajaxPaginationMedias('#medias-pagination-up');
+                                    ajaxPaginationMedias('#medias-pagination');
+                                }).fail(function (jqXHR, textStatus, errorThrown) {
+                                    $('#error-dialog').dialog();
+                                });
+                            });
+                        });
+                    });
+                }
+            </script>
+        {% endblock %}
+    </body>
+</html>

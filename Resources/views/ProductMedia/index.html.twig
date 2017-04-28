@@ -1,0 +1,70 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} Wszystkie media{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Lista mediów</h1>
+    <hr><a class="btn btn-success btn-sm" role="button" href="{{ path('productmedia_new') }}">Create a new productMedia</a><hr>
+    <div class="hide">        
+        <div id="images-dialog" class="container">Wiadomosc o nie udanej probie paginacji obrazkow</div>
+    </div>        
+
+    <div class="row text-center" id="medias-container">
+        {% include 'SulmiProductBundle::partial/media/media_images_paginated_ajax.html.twig' with { 'productMedias':productMedias } %}
+    </div>
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            ajaxSortLinks('#container-sort-link');
+            ajaxPaginationMedias('#medias-pagination-up');
+            ajaxPaginationMedias('#medias-pagination');
+        });
+        function ajaxSortLinks(selector) {
+            $(selector).find('a').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    var url = $(this).attr('href');
+                    $.ajax({
+                        type: 'post',
+                        url: url
+                    }).done(function (data) {
+                        $('#medias-container').html(data);
+                        ajaxSortLinks('#container-sort-link');
+                        ajaxPaginationMedias('#medias-pagination-up');
+                        ajaxPaginationMedias('#medias-pagination');
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#images-dialog').dialog();
+                    });
+                });
+            });
+        }
+        function ajaxPaginationMedias(paginContainer) {
+            $(paginContainer).find('ul').each(function () {
+                $(this).children().each(function () {
+                    $(this).children().first('a').off('click').on('click', null, function (event) {
+                        event.preventDefault();
+                        var url = $(this).attr('href');
+                        $.ajax({
+                            type: 'post',
+                            url: url
+                        }).done(function (data) {
+                            $('#medias-container').html(data);
+                            ajaxSortLinks('#container-sort-link');
+                            ajaxPaginationMedias('#medias-pagination-up');
+                            ajaxPaginationMedias('#medias-pagination');
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            $('#images-dialog').dialog();
+                        });
+                    });
+                });
+            });
+        }
+    </script>
+{% endblock %}

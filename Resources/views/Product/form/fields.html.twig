@@ -1,0 +1,65 @@
+{% use "form_div_layout.html.twig" %}
+
+{% form_theme form _self %}
+
+{% block form_start %}
+    {% set attr = attr|merge({class: (attr.class|default(''))|trim}) %}
+    {{ parent() }}
+{% endblock form_start %}
+
+{# Labels #}
+
+{% block form_label %}
+    {% spaceless %}
+        {% if label is same as(false) %}
+            <label class="{{ block('form_label_class') }}"></label>
+        {% else %}
+            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) %}
+            {{ parent() }}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_label %}
+
+{% block form_label_class %}
+    control-label
+{% endblock form_label_class %}
+
+{# Rows #}
+{#{% set namefield="name" %}#}
+{% block form_row %}
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
+{% endblock form_row %}
+
+{% block submit_row %}
+    {% spaceless %}
+        <div class="form-group">
+            <div class="{{ block('form_label_class') }}"></div>
+            <div class="{{ block('form_group_class') }}">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock submit_row %}
+
+{% block reset_row -%}
+    {% spaceless %}
+        <div class="form-group">
+            <label class="{{ block('form_label_class') }}"></label>
+            {{ form_widget(form) }}
+        </div>
+    {% endspaceless %}
+{% endblock reset_row %}
+
+
+{%- block choice_widget_expanded -%}
+<div class="row androw">
+    {%- for child in form %}
+    {{- form_widget(child) -}}
+    {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+    {% endfor -%}
+    </div>
+    {%- endblock choice_widget_expanded -%}

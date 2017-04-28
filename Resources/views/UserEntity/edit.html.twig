@@ -1,0 +1,84 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} Edycja użytkownika{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Edycja użytkownik produktu</h1>
+    <hr>
+    <ul class="list-inline">
+        <li>
+            <a href="{{ path('sulmi_product_userentity_new') }}">Dodaj Nowego</a>
+        </li>
+        <li>
+            <a href="{{ path('sulmi_product_userentity_index') }}">Powrót do listy</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+    <hr>
+    <h1>Userentity edit</h1>
+    {% form_theme edit_form with 'SulmiProductBundle:Product:form/fields.html.twig' %}
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
+            ajaxSortLinks('#container-sort-link');
+            ajaxPaginationMedias('#medias-pagination-up');
+            ajaxPaginationMedias('#medias-pagination');
+        });
+        function ajaxSortLinks(selector) {
+            $(selector).find('a').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    var url = $(this).attr('href');
+                    $.ajax({
+                        type: 'post',
+                        url: url
+                    }).done(function (data) {
+                        $('#medias-container').html(data);
+                        ajaxSortLinks('#container-sort-link');
+                        ajaxPaginationMedias('#medias-pagination-up');
+                        ajaxPaginationMedias('#medias-pagination');
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#images-dialog').dialog();
+                    });
+                });
+            });
+        }
+        function ajaxPaginationMedias(paginContainer) {
+            $(paginContainer).find('ul').each(function () {
+                $(this).children().each(function () {
+                    $(this).children().first('a').off('click').on('click', null, function (event) {
+                        event.preventDefault();
+                        var url = $(this).attr('href');
+                        $.ajax({
+                            type: 'post',
+                            url: url
+                        }).done(function (data) {
+                            $('#medias-container').html(data);
+                            ajaxSortLinks('#container-sort-link');
+                            ajaxPaginationMedias('#medias-pagination-up');
+                            ajaxPaginationMedias('#medias-pagination');
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            $('#images-dialog').dialog();
+                        });
+                    });
+                });
+            });
+        }
+    </script>
+{% endblock %}
+

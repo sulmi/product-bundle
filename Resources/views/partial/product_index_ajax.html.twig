@@ -1,0 +1,16 @@
+{% for product in products %}
+    <div class="col-xs-2 pull-left text-center">
+        {% spaceless %}
+            <div style="min-height: 10em;cursor: pointer;" id="product-{{ product.id }}" class="thumbnail" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                {{ render_product_media90(product) }}
+                {{ product.name }}
+            </div>
+        {% endspaceless %}
+    </div>
+{% endfor %}
+<div class="col-xs-12">    
+    <div id="medias-pagination" class="navigation">
+        {{ knp_pagination_render(products, {'template':'SulmiProductBundle::partial/product/sliding_scroll.html.twig'}) }}
+    </div>
+</div>
+

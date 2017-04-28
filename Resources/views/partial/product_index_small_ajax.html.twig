@@ -1,0 +1,19 @@
+{% if products is iterable %}
+    <div class="col-xs-12">
+        <ul class="list-group">
+            {% for product in products %}
+                {% spaceless %}
+                    <li class="list-group-item" id="productsmall-{{ product.id }}">            
+                        <span class="" style="max-width: 140px;">
+                            {{ render_product_media90(product) }}
+                        </span>
+                            <strong style="margin-left: 5px;">{{ product.name }}</strong>
+                        <span> Cena: {{ product.price }} PLN</span>
+                        <button class="btn btn-warning" style="position:absolute;right: 0px;bottom: 0px;"><span class="fa fa-trash"></span></button>
+                    </li>
+                {% endspaceless %}
+            {% endfor %}
+        </ul>  
+    </div>            
+{% endif %}
+

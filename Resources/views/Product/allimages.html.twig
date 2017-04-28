@@ -1,0 +1,48 @@
+{% extends '@SulmiProductBundle/base.html.twig' %}
+{% block title %} {{ 'product.list'|trans }}{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block nav %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    <h1>Images list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for image in images %}
+            <tr>
+                <td><a href="{{ path('sulmi_product_productmedia_show', { 'id': image.id }) }}">{{ image.id }}</a></td>
+                {% set image_path= '/'~image.filePath %}
+                <td><img src="{{ image.filePath | imagine_filter('product90') }}" /></td>
+{#                <td><img src="{{ image_path | imagine_filter('product90') }}" /></td>#}
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('sulmi_product_productmedia_show', { 'id': image.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('productmedia_edit', { 'id': image.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('sulmi_product_product_new') }}">Create a new product</a>
+        </li>
+    </ul>
+{% endblock %}

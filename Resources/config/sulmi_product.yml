@@ -1,0 +1,171 @@
+#Using KnpMenuBundle
+# http://symfony.com/doc/current/bundles/KnpMenuBundle/index.html
+knp_menu:
+    # use "twig: false" to disable the Twig extension and the TwigRenderer
+    twig:
+        template: SulmiProductBundle::knp_menu.html.twig
+    #  if true, enables the helper for PHP templates
+    templating: false
+    # the renderer to use, list is also available by default
+    default_renderer: twig
+
+# https://github.com/KnpLabs/KnpPaginatorBundle
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+# LiipImagineBundle Basic Usage
+# http://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+# https://github.com/liip/LiipImagineBundle
+liip_imagine:
+    # configure resolvers
+    resolvers:
+        # setup the default resolver
+        default:
+            # use the default web path
+            web_path: ~
+    # your filter sets are defined here
+    filter_sets:
+        # use the default cache configuration
+        cache: ~
+        # the name of the "filter set"
+        product90:
+            # adjust the image quality to 75%
+            quality: 35
+            # list of transformations to apply (the "filters")
+            filters:
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail: { size: [120, 90], mode: outbound }
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                background: { size: [124, 94], position: center, color: '#000000' }
+        # the name of the "filter set"
+        product96:
+            # adjust the image quality to 75%
+            quality: 35
+            # list of transformations to apply (the "filters")
+            filters:
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                thumbnail: { size: [144, 144], mode: outbound }
+                # create a 2px black border: center the thumbnail on a black background
+                # 4px larger to create a 2px border around the final image
+                # background: { size: [124, 94], position: center, color: '#000000' }
+        # the name of the "filter set"
+        product270:
+            quality: 35
+            filters:
+                relative_resize:
+                    widen: 270
+        video240:
+            quality: 35
+            filters:
+                relative_resize:
+                    widen: 240
+        # the name of the "filter set"
+        product800:
+            # adjust the image quality to 75%
+            quality: 35
+            # list of transformations to apply (the "filters")
+            filters:
+                # use and setup the "relative_resize" filter
+                relative_resize:
+                    # http://symfony.com/doc/master/bundles/LiipImagineBundle/filters/sizing.html#relative-resize
+                    # given 50x40px, output 32x26px using "widen" option
+                    # Relative Resize Options
+                    # heighten: float
+                    # Sets the "desired height" which initiates a proportional scale operation that up- or down-scales 
+                    # until the image height matches this value.
+                    # widen: float
+                    # Sets the "desired width" which initiates a proportional scale operation that up- or down-scales until the image width matches this value.
+                    # increase: float
+                    # Sets the "desired additional size" which initiates a scale operation computed by adding this value to all image sides.
+                    # scale: float
+                    # Sets the "ratio multiple" which initiates a proportional scale operation computed by multiplying all image sides by this value.
+                    widen: 800
+                # create a thumbnail: set size to 120x90 and use the "outbound" mode
+                # to crop the image when the size ratio of the input differs
+                #thumbnail: { size: [800, 600], mode: outbound }
+                # use and setup the "watermark" filter
+                watermark:
+                    #image: string
+                    #Sets the location of the watermark image.
+                    #The value of this option is prepended with the resolved value of the %kernel.root_dir% parameter.
+                    # path to the watermark file (prepended with "%kernel.root_dir%")
+                    image: Resources/data/my-logo.png
+                    #size: float
+                    #Sets the size of the watermark as a relative ration, relative to the original input image.
+                    # size of the water mark relative to the input image
+                    size: 0.5
+                    # set the position of the watermark
+                    #position: string
+                    #Sets the position of the watermark on the input image. 
+                    #Valid values: topleft, top, topright, left, center, right, bottomleft, bottom, and bottomright.                    
+                    position: bottomleft
+
+# TinymceBundle configuration
+# https://github.com/stfalcon/TinymceBundle
+# https://packagist.org/packages/edefine/tinymce-bundle
+stfalcon_tinymce:
+    include_jquery: false
+    tinymce_jquery: true
+#    selector: ".tinymce"
+#    base_url: "http://yourdomain.com/" # this parameter may be included if you need to override the assets_base_urls for your template engine (to override a CDN base url)
+    # Get current language from the parameters.ini
+    language: %locale%
+
+# Symfony ffmpeg bundle
+# https://github.com/pulse00/ffmpeg-bundle
+dubture_f_fmpeg:
+    ffmpeg_binary: /usr/bin/ffmpeg
+    ffprobe_binary: /usr/bin/ffprobe
+    # Use 0 for infinite
+    binary_timeout: 300
+    threads_count: 4
+
+# StofDoctrineExtensions config
+# https://github.com/stof/StofDoctrineExtensionsBundle
+stof_doctrine_extensions:
+    default_locale: pl
+    translation_fallback: true
+    uploadable:
+        # Default file path: This is one of the three ways you can configure the path for the Uploadable extension
+        default_file_path: %kernel.root_dir%/uploads
+        # Mime type guesser class: Optional. By default, we provide an adapter for the one present in the HttpFoundation component of Symfony
+        mime_type_guesser_class: Stof\DoctrineExtensionsBundle\Uploadable\MimeTypeGuesserAdapter
+        # Default file info class implementing FileInfoInterface: Optional. By default we provide a class which is prepared to receive an UploadedFile instance.
+        default_file_info_class: Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo
+    orm:
+        default:
+            uploadable: true
+            sluggable: true
+            translatable: true
+            tree: true
+            timestampable: false
+            softdeleteable: false
+            sortable: false
+            blameable: false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

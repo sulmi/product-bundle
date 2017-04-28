@@ -1,0 +1,12 @@
+<div class="col-xs-12">
+    {{ form_start(form, {'attr': {'id': 'upload', 'action': path('ajax_new_under_product',{ 'id':id })} }) }}
+    <div id="drop">
+        Przeciągnij tutaj
+        <a>Wyszukaj</a>
+        {{ form_row(form.picture, {'attr': {'name': 'upl'} }) }}
+    </div>
+    <ul>
+        <!-- The file uploads will be shown here -->
+    </ul>
+    {{ form_end(form) }}
+</div>

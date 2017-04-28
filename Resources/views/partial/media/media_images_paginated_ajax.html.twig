@@ -1,0 +1,36 @@
+{# total items count #}
+<div class="col-xs-12">
+    <div class="count">
+        Wszystkich: {{ productMedias.getTotalItemCount }}
+    </div>
+</div>
+<div class="col-xs-12" id="container-sort-link">Sortuj: 
+    {{ knp_pagination_sortable(productMedias, 'Data dodania', 'm.id') }}
+    {{ knp_pagination_sortable(productMedias, 'Mime', 'm.mime') }}
+</div>
+<div class="col-xs-12">        
+    {# display navigation #}
+    <div id="medias-pagination-up" class="navigation">
+        {{ knp_pagination_render(productMedias) }}
+    </div>
+</div>
+<div class="col-xs-12"> 
+    {% for productMedia in productMedias %}
+        <div style="min-height: 15em;padding-top: 0em;" class="thumbnail col-sm-3 pull-left text-center"> 
+            {{ render_media90(productMedia) }}
+            <p class="panel" style="min-height:3em;margin-bottom: 55px;">
+                {{ productMedia.filePath | replace({'upload/': ''}) }}
+            </p> 
+            <p class="hp-pr-btn-cont">
+                <a href="{{ path('sulmi_product_productmedia_show', { 'id': productMedia.id }) }}" class="btn btn-primary btn-sm" role="button">show</a> 
+                <a href="{{ path('productmedia_edit', { 'id': productMedia.id }) }}" class="btn btn-default btn-sm" role="button">edit</a>
+            </p> 
+        </div>
+    {% endfor %}
+</div>
+<div class="col-xs-12">    
+    {# display navigation #}
+    <div id="medias-pagination" class="navigation">
+        {{ knp_pagination_render(productMedias) }}
+    </div>
+</div>

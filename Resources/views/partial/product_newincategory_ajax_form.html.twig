@@ -1,0 +1,17 @@
+{% form_theme form with ['SulmiProductBundle:Product:form/fields.html.twig'] %}
+
+{{ form_start(form) }}
+<div>{{ form_label(form.name) }}</div>
+<div>{{ form_errors(form.name) }}</div>
+<div>{{ form_widget(form.name, {'attr': {'style': 'width:100%'} }) }}</div>
+<div>{{ form_label(form.price) }}</div>
+<div>{{ form_errors(form.price) }}</div>
+<div>{{ form_widget(form.price, {'attr': {'style': 'width:100%'} }) }}</div>
+<div>{{ form_label(form.description) }}</div>
+<div>{{ form_errors(form.description) }}</div>
+<div>{{ form_widget(form.description, {'attr': {'style': 'width:100%'} }) }}</div>
+<input class="btn-block" type="submit" value="Akceptuj" />
+{{ form_end(form) }}
+{% if products is not null %}
+    {% include '@SulmiProductBundle/partial/product_index_small_ajax.html.twig' with { 'products':products } %}
+{% endif %}

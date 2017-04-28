@@ -1,0 +1,14 @@
+<h3>Obrazki</h3>
+<div id="links" class="text-center">
+    {% for image in images if images %}
+        {% if loop.index == 1 %}
+            <a href="{{ image.filePath | imagine_filter('product800') }}">
+                <img class="img-thumbnail" style="margin-bottom: 4px;" src="{{ image.filePath | imagine_filter('product270') }}" alt="{{  image.filePath|replace({ 'upload\/': "" }) }}" />
+            </a>
+        {% else %}
+        <a href="{{ image.filePath | imagine_filter('product800') }}">
+            <img class="img-thumbnail" style="margin-bottom: 4px;" src="{{ image.filePath | imagine_filter('product90') }}" alt="{{  image.filePath|replace({ 'upload\/': "" }) }}" />
+        </a>            
+        {% endif %}
+    {% endfor %}
+</div>

@@ -1,0 +1,25 @@
+<div class="col-xs-12" id="products-paginated-sort-links">Sortuj: 
+    {{ knp_pagination_sortable(products, 'Data dodania', 'p.id') }}
+    {{ knp_pagination_sortable(products, 'Name', 'p.name') }}
+</div>
+<div class="col-xs-12">    
+    <div id="products_paginated_up" class="navigation">
+        {{ knp_pagination_render(products) }}
+    </div>
+</div>
+{% for product in products %}
+    <div class="col-xs-2 pull-left text-center">
+        {% spaceless %}
+            <div style="min-height: 10em;cursor: pointer;" id="product-{{ product.id }}" class="thumbnail" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                {{ render_product_media90(product) }}
+                {{ product.name }}
+            </div>
+        {% endspaceless %}
+    </div>
+{% endfor %}
+<div class="col-xs-12">    
+    <div id="products_paginated_down" class="navigation">
+        {{ knp_pagination_render(products) }}
+    </div>
+</div>
+

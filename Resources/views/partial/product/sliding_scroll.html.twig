@@ -1,0 +1,6 @@
+{# default Sliding pagination control implementation #}
+{% if pageCount > 1 %}
+    {% if next is defined %}
+        <a href="{{ path(route, query|merge({(pageParameterName): next})) }}">&gt;</a>
+    {% endif %}
+{% endif %}
