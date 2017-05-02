@@ -14,7 +14,7 @@ Small Symfony 3 application provides basic functionality for the product, such a
 
 ## Installation
 
-#### Using [composer]( http://getcomposer.org) )
+#### Using [composer]( http://getcomposer.org )
 
 Add the following lines to your ```composer.json``` in the "require-dev" and "repositories" sections:
 
