@@ -1,0 +1,49 @@
+{
+    "name": "sulmi/product-bundle",
+    "description": "This bundles provides basic functional product for Symfony3 applications",
+    "keywords": ["symfony3"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sulowski Mirosław",
+            "homepage": "https://github.com/sulmi/product-bundle"
+        },
+        {
+            "name": "Community contributions",
+            "homepage": "https://github.com/sulmi/product-bundle"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "sensio/distribution-bundle": "^5.0",
+        "sensio/framework-extra-bundle": "^3.0.2",
+        "twig/extensions": "^1.4",
+        "incenteev/composer-parameter-handler": "^2.0",
+        "doctrine/doctrine-fixtures-bundle": "^2.3",
+        "stof/doctrine-extensions-bundle": "^1.2",
+        "symfony/assetic-bundle": "^2.8",
+        "knplabs/knp-paginator-bundle": "^2.5",
+        "knplabs/knp-menu-bundle": "^2.1",
+        "stfalcon/tinymce-bundle": "^2.0",
+        "liip/imagine-bundle": "^1.6",
+        "pulse00/ffmpeg-bundle": "^0.6"
+    },
+    "require-dev": {
+        "symfony/symfony": "~2.7|~3.0"
+    },
+    "suggest": {
+        "symfony/framework-bundle": "To use assertStatusCode and assertValidationErrors ~2.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "Sulmi\\ProductBundle\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0"
+        }
+    },
+    "target-dir": "Sulmi/ProductBundle"
+}
