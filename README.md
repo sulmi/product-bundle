@@ -58,7 +58,6 @@ Add the following lines to your ```app/AppKernel.php``` in the ```registerBundle
  * {@inheritDoc}
  */
 public function registerBundles() {
-    (...)
     new Symfony\Bundle\AsseticBundle\AsseticBundle(),
     new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
     new Liip\ImagineBundle\LiipImagineBundle(),
@@ -67,12 +66,9 @@ public function registerBundles() {
     new Dubture\FFmpegBundle\DubtureFFmpegBundle(),
     new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
     new Sulmi\ProductBundle\SulmiProductBundle(),
-    (...)
     
     if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-    	(...)
         $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
-        (...)
     }
 }
 ```
@@ -92,11 +88,9 @@ Security configuration is only possible in one file. Overwrite file from project
 # app/config/config.yml
 
 imports:
-    (...)
     - { resource: sulmi_product.yml }
     - { resource: sulmi_product_assetic.yml }
     - { resource: sulmi_product_security.yml }
-    (...)
 ```
 
 Make sure that all parameters are imported into the configuration file and enable you to work on database.
@@ -106,11 +100,9 @@ You may need permission to create the database.
 # app/config/parameters.yml
 
 parameters:
-    (...)
     database_name: my_proj_db_name
     database_user: my_proj_user
     database_password: my_proj_db_pass
-    (...)
 
 ```
 
@@ -122,13 +114,11 @@ Place these configurations parameters into one of the configuration files, e.g. 
 # Twig Configuration app/config/config.yml
 
 twig:
-    (...)
     paths:
         '%kernel.root_dir%/../vendor/sulmi/product-bundle/Sulmi/ProductBundle/Resources/views': SulmiProductBundle
     form_themes:
         - "bootstrap_3_layout.html.twig"
         - "SulmiProductBundle:Product:form/fields.html.twig"
-    (...)
 ```
 
 #### Simple Menu Language Configuration
@@ -141,18 +131,12 @@ twig:
 # app/config/config.yml
 
 parameters:
-    (...)
     locale: pl
     app_locales: pl|en
     app_locales_transKeys: Polski|English
-    (...)
-(...)
 # Make sure this parameter is uncommented
 framework:
-(...)
     translator: { fallbacks: ["%locale%"] }
-
-(...)
 ```
 
 #### Doctrine Configuration (DQL extensions)
@@ -163,7 +147,6 @@ Bundle requires proper Doctrine's mapping into one of the configuration files, e
 # Doctrine Configuration
 
 doctrine:
-	(...)
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         entity_managers:
@@ -185,7 +168,6 @@ doctrine:
                         rand: DoctrineExtensions\Query\Mysql\Rand
                     string_functions:
                         find_in_set: DoctrineExtensions\Query\Mysql\FindInSet
-	(...)
 ```
 
 #### Routing configuration
@@ -248,7 +230,7 @@ sudo chmod -R 0777 var
 
 #### Simple start
 
-To quickly get to fun enter the address like ```www.my-project-vhost.local/app_dev.php/pl/sulmi-product``` then proceed to the application home page.
+To quickly get to fun enter the address like ```www.my-project-vhost.dev/app_dev.php/pl/sulmi-product``` then proceed to the application home page.
 After logging in, you can add categories and join them products that contain media.
 
 
