@@ -195,7 +195,7 @@ _liip_imagine:
 #### Final commands
 
 The final commands are necessary to ensure that all resources and schema were in place, and having the appropriate access rights.
-If using Linux.
+If using some Linux.
 
 ```
 # cd /server/dir/my-symfony-project-dir/
