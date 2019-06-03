@@ -12,7 +12,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Basic and default backend controller. 
+ * Basic and default backend controller.
  * CRUD Controller for ProductMedia entity.
  *
  * @author    Mirosław Sulowski <mirekprograms@gmail.com>
@@ -24,19 +24,19 @@ class ProductMediaController extends BaseController
 
     /**
      *
-     * @var UploadableManager 
+     * @var UploadableManager
      */
     private $uploadableManager;
 
     /**
      *
-     * @var Product 
+     * @var Product
      */
     private $product;
 
     /**
      * Lists all productMedia entities.
-     * 
+     *
      * @param Request $request
      * @return Response Symfony Action Response
      *
@@ -52,18 +52,18 @@ class ProductMediaController extends BaseController
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('SulmiProductBundle::partial/media/media_images_paginated_ajax.html.twig', [
-                        'productMedias' => $productMediapagination,
+                'productMedias' => $productMediapagination,
             ]);
         } else {
             return $this->render('SulmiProductBundle:ProductMedia:index.html.twig', [
-                        'productMedias' => $productMediapagination,
+                'productMedias' => $productMediapagination,
             ]);
         }
     }
 
     /**
      * You can search for all images.
-     * 
+     *
      * @param type $product_id
      * @return Response Symfony Action Response
      *
@@ -76,13 +76,13 @@ class ProductMediaController extends BaseController
         $productMedia = $em->getRepository('SulmiProductBundle:ProductMedia')->findAllImages($product_id);
 
         return $this->render('SulmiProductBundle:ProductMedia:index.html.twig', array(
-                    'productMedia' => $productMedia,
+            'productMedia' => $productMedia,
         ));
     }
 
     /**
      * Lists all productMedia entities for spec product.
-     * 
+     *
      * @param type $product_id
      * @return Response Symfony Action Response
      *
@@ -95,23 +95,23 @@ class ProductMediaController extends BaseController
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
         $q = $qb->select(array('m'))
-                ->from('SulmiProductBundle:ProductMedia', 'm')
-                ->where(
-                        $qb->expr()->gt('m.product', $product_id)
-                )
-                ->orderBy('m.id', 'asc')
-                ->getQuery();
+            ->from('SulmiProductBundle:ProductMedia', 'm')
+            ->where(
+                $qb->expr()->gt('m.product', $product_id)
+            )
+            ->orderBy('m.id', 'asc')
+            ->getQuery();
 
         $productMedia = $q->getArrayResult();
 
         return $this->render('SulmiProductBundle:ProductMedia:mediaforproduct.html.twig', array(
-                    'productMedia' => $productMedia,
+            'productMedia' => $productMedia,
         ));
     }
 
     /**
      * Saving files for the selected product.
-     * 
+     *
      * @param Request $request
      * @param Product $product
      * @return Response Symfony Action Response
@@ -138,22 +138,22 @@ class ProductMediaController extends BaseController
             $medias = $repo->findAllDocuments($product->getId());
             $videos = $repo->findAllMovies($product->getId());
 
-            if (count($videos) > 0) {
-                $videos = $this->getVideoThumbnails($em, $videos);
-            }
+//            if (count($videos) > 0) {
+//                $videos = $this->getVideoThumbnails($em, $videos);
+//            }
 
             return $this->render('SulmiProductBundle::partial/media_slot_acordion.html.twig', [
-                        'product' => $product,
-                        'images' => $images,
-                        'videos' => $videos,
-                        'medias' => $medias,
+                'product' => $product,
+                'images' => $images,
+                'videos' => $videos,
+                'medias' => $medias,
             ]);
         }
     }
 
     /**
      * That means a lot of files sent as related to the product and uploaded.
-     * 
+     *
      * @param ProductMediaType $form
      * @param ProductMedia $productMedia
      * @return null
@@ -182,7 +182,7 @@ class ProductMediaController extends BaseController
 
     /**
      * Doctrine uses the extension to save the uploaded files.
-     * 
+     *
      * @param ProductMedia $productMedia
      * @param File $picture
      * @param EntityManager $em
@@ -197,7 +197,7 @@ class ProductMediaController extends BaseController
 
     /**
      * This means the file for writing in upload directory.
-     * 
+     *
      * @param ProductMedia $productMedia
      * @param File $picture
      * @param Product $product
@@ -214,7 +214,7 @@ class ProductMediaController extends BaseController
 
     /**
      * Creates a new productMedia entity.
-     * 
+     *
      * @param Request $request
      * @return Response Symfony Action Response
      *
@@ -238,15 +238,15 @@ class ProductMediaController extends BaseController
             ]);
         } else {//simple get request
             return $this->render('SulmiProductBundle:ProductMedia:new.html.twig', array(
-                        'productMedia' => $productMedia,
-                        'form' => $form->createView(),
+                'productMedia' => $productMedia,
+                'form' => $form->createView(),
             ));
         }
     }
 
     /**
      * Displays a form to edit an existing productMedia entity.
-     * 
+     *
      * @param Request $request
      * @param ProductMedia $productMedia
      * @return Response Symfony Action Response
@@ -267,15 +267,15 @@ class ProductMediaController extends BaseController
         }
 
         return $this->render('SulmiProductBundle:ProductMedia:edit.html.twig', array(
-                    'productMedia' => $productMedia,
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
+            'productMedia' => $productMedia,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * Deletes a productMedia entity.
-     * 
+     *
      * @param Request $request
      * @param ProductMedia $productMedia
      * @return Response Symfony Action Response redirect list all media
@@ -307,10 +307,10 @@ class ProductMediaController extends BaseController
     private function createDeleteForm(ProductMedia $productMedia)
     {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('productmedia_delete', array('id' => $productMedia->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
-        ;
+            ->setAction($this->generateUrl('productmedia_delete', array('id' => $productMedia->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+            ;
     }
 
 }

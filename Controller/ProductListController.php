@@ -21,36 +21,36 @@ class ProductListController extends Controller
 {
 
     /**
-     * @var Uploadmanager 
+     * @var Uploadmanager
      */
     private $uploadableManager;
 
     /**
      * Viewing category and its products.
-     * 
+     *
      * @param Request $request
      * @param string $categoryslug Slug of Category not used
      * @param ProductCategory $category Id of Category
      * @return Response Symfony Action Response
      *
-     * @Route("/{categoryslug}/c/{id}", name="category_default_list", requirements={"id" = "\d+","categoryslug" = "[\w\-_]+"})
+     * @Route("/{categoryslug}/c/{id}/", name="category_default_list", requirements={"id" = "\d+","categoryslug" = "[\w\-_]+"})
      * @Method({"GET","POST"})
      */
     public function indexAction(Request $request, $categoryslug, ProductCategory $category)
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $productpagination = $paginator->paginate($category->getProducts()->getValues(), $request->query->getInt('page', 1), 12);
+        $productpagination = $paginator->paginate(array_reverse($category->getProducts()->getValues(),FALSE), $request->query->getInt('page', 1), 12);
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('SulmiProductBundle::partial/product/product_paginated_ajax.html.twig', [
-                        'products' => $productpagination,
-                        'category' => $category,
+                'products' => $productpagination,
+                'category' => $category,
             ]);
         } else {
             return $this->render('AppBundle:HomePage:homePage.html.twig', [
-                        'products' => $productpagination,
-                        'category' => $category,
+                'products' => $productpagination,
+                'category' => $category,
             ]);
         }
     }
@@ -81,21 +81,21 @@ class ProductListController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('category_default_language', [
-                        'id' => $productCategory->getId(),
-                        'categoryslug' => $productCategory->getSlug()
+                'id' => $productCategory->getId(),
+                'categoryslug' => $productCategory->getSlug()
             ]);
         }
         return $this->render('SulmiProductBundle:ProductCategory:index_products_new_product.html.twig', [
-                    'category' => $productCategory,
-                    'id' => $productCategory->getId(),
-                    'product' => $product,
-                    'edit_form' => $form->createView(),
+            'category' => $productCategory,
+            'id' => $productCategory->getId(),
+            'product' => $product,
+            'edit_form' => $form->createView(),
         ]);
     }
 
     /**
      * You can save files sent using an extension Doctrine.
-     * 
+     *
      * @param ProductMedia $product Media media from form
      * @param File $picture Temp name and other data uploaded file
      * @param Product $product Product entity
@@ -111,7 +111,7 @@ class ProductListController extends Controller
 
     /**
      * You can save files sent from form of multiple choice.
-     * 
+     *
      * @param Form $form
      * @param ProductMedia $productMedia
      */

@@ -2,21 +2,21 @@
 
 namespace Sulmi\ProductBundle\Controller;
 
+use Sulmi\ProductBundle\Controller\ProductBaseController as BaseController;
 use Sulmi\ProductBundle\Entity\Product;
 use Sulmi\ProductBundle\Entity\ProductCategory;
-use Sulmi\ProductBundle\Controller\ProductBaseController as BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Responsible for the proper display of products, 
+ * Responsible for the proper display of products,
  * and some of the functionality associated with the product and ajax actions.
  *
  * @author    Mirosław Sulowski <mirekprograms@gmail.com>
- * 
+ *
  * @uses Sulmi\ProductBundle\Controller\ProductBaseController as BaseController
- * 
+ *
  * Route("/productajax")
  */
 class ProductFrontEndDefaultController extends BaseController
@@ -27,7 +27,7 @@ class ProductFrontEndDefaultController extends BaseController
      *
      * @Route("/", name="sulmi_product_homepage")
      * @Method({"GET","POST"})
-     * 
+     *
      * @param Request $request
      * @return Response
      */
@@ -40,48 +40,48 @@ class ProductFrontEndDefaultController extends BaseController
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('SulmiProductBundle::partial/product/product_paginated_ajax.html.twig', [
-                        'products' => $productpagination,
+                'products' => $productpagination,
             ]);
         }
 
         return $this->render('SulmiProductBundle:HomePageDefault:homePage.html.twig', [
-                    'products' => $productpagination,
+            'products' => $productpagination,
         ]);
     }
 
     /**
      * Lists all Product Category entities without language for celect category.
-     * 
+     *
      * @param Request $request
      * @param string $categoryslug
      * @param ProductCategory $category
      * @return Response Symfony Action Response
      *
-     * @Route("/{categoryslug}/c/{id}", name="category_default", requirements={"id" = "\d+","categoryslug" = "[\w\-_]+"})
+     * @Route("/{categoryslug}/c/{id}/", name="category_default", requirements={"id" = "\d+","categoryslug" = "[\w\-_]+"})
      * @Method({"GET","POST"})
      */
     public function categoryDefaultAction(Request $request, $categoryslug, ProductCategory $category)
     {
         $em = $this->getDoctrine()->getManager();
         $paginator = $this->get('knp_paginator');
-        $productpagination = $paginator->paginate($category->getProducts()->getValues(), $request->query->getInt('page', 1), 12);
+        $productpagination = $paginator->paginate(array_reverse($category->getProducts()->getValues(),FALSE), $request->query->getInt('page', 1), 12);
         if ($request->isXmlHttpRequest()) {
             return $this->render('SulmiProductBundle::partial/product/product_paginated_ajax.html.twig', [
-                        'products' => $productpagination,
-                        'category' => $category,
+                'products' => $productpagination,
+                'category' => $category,
             ]);
         } else {
             return $this->render('SulmiProductBundle:ProductCategory:index_products.html.twig', [
-                        'products' => $productpagination,
-                        'category' => $category,
-                        'id' => $category->getId(),
+                'products' => $productpagination,
+                'category' => $category,
+                'id' => $category->getId(),
             ]);
         }
     }
 
     /**
      * Viewing the product without language version.
-     * 
+     *
      * @param Product $product
      * @param type $slug
      * @return Response Symfony Action Response
@@ -101,11 +101,11 @@ class ProductFrontEndDefaultController extends BaseController
             $videos = $this->getVideoThumbnails($em, $videos);
         }
         return $this->render('SulmiProductBundle:ProductDefault:show.html.twig', [
-                    'images' => $images,
-                    'medias' => $medias,
-                    'videos' => $videos,
-                    'categories' => $product->getCategories()->getValues(),
-                    'product' => $product,
+            'images' => $images,
+            'medias' => $medias,
+            'videos' => $videos,
+            'categories' => $product->getCategories()->getValues(),
+            'product' => $product,
         ]);
     }
 
