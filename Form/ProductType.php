@@ -13,39 +13,41 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author    Mirosław Sulowski <mirekprograms@gmail.com>
  */
-class ProductType extends AbstractType
-{
+class ProductType extends AbstractType {
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('price', MoneyType::class, [
+            ->add('price', MoneyType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'style' => 'float:left;',
+                    'value' => '0.01',
+                ],
+                'label' => 'pr.form.lab.price',
+                'currency' => 'PLN',
+            ])
+            ->add('name', null, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'pr.form.lab.name',
+            ])
+            ->add('description', TextareaType::class, [
                     'attr' => [
-                        'class' => 'form-control',
-                        'style' => 'float:left;',
-                    ],
-                    'label' => 'pr.form.lab.price',
-                    'currency' => 'PLN',
-                ])
-                ->add('name', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                    ],
-                    'label' => 'pr.form.lab.name',
-                ])
-                ->add('description', TextareaType::class, [
-                    'attr' => [
-                        'style' => 'min-height:300px',
+                        'required' => false,
+//                        'style' => 'min-height:300px',
+//                        'class' => 'genemu_tinymce',
+//                        'class' => 'airmode',
                         'class' => 'tinymce',
-                        'data-theme' => 'advanced' // simple, advanced, bbcode
+                        'value' => '<br>',
+//                        'data-theme' => 'advanced' // simple, advanced, bbcode
                     ],
                     'label' => 'pr.form.lab.description',
-                    
-                        ]
-                )
+                ]
+            )
 //                ->add('categories', null, [
 //                    'attr' => [
 //                        'class' => 'select form-control'
@@ -57,8 +59,7 @@ class ProductType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'Sulmi\ProductBundle\Entity\Product'
         ));
@@ -67,8 +68,7 @@ class ProductType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
+    public function getBlockPrefix() {
         return 'sulmi_productbundle_product';
     }
 

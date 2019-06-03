@@ -21,26 +21,29 @@ class ProductQuickAjaxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('price', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Cena',
-                    ]
-                ])
-                ->add('name', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Nazwa',
-                    ]
-                ])
-                ->add('description', TextareaType::class, [
+            ->add('price', null, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Cena',
+                    'value' => '0.01',
+                ]
+            ])
+            ->add('name', null, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Nazwa',
+                ]
+            ])
+            ->add('description', TextareaType::class, [
                     'attr' => [
                         'class' => 'form-control',
                         'style' => 'min-height:400px;',
                         'placeholder' => 'Opis',
+                        'required' => false,
+                        'value' => '<br>',
                     ]
-                        ]
-                )
+                ]
+            )
         ;
     }
 
