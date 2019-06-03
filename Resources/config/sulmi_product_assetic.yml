@@ -1,11 +1,13 @@
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
-#    bundles: [ ]
+    #    bundles: [ ]
     bundles: [ SulmiProductBundle ]
     filters:
-        cssrewrite: ~
-        jsqueeze: ~
+        cssrewrite:
+            disabled: true
+        jsqueeze:
+            disabled: true
     assets:
         font-glyphicons-ttf:
             inputs: '@SulmiProductBundle/Resources/public/fonts/glyphicons-halflings-regular.ttf'
@@ -16,16 +18,77 @@ assetic:
         font-glyphicons-woff2:
             inputs: '@SulmiProductBundle/Resources/public/fonts/glyphicons-halflings-regular.woff2'
             output: 'fonts/glyphicons-halflings-regular.woff2'
-#
+        #
         fontawesome-webfont-ttf:
             inputs: '@SulmiProductBundle/Resources/public/fonts/fontawesome-webfont.ttf'
             output: 'fonts/fontawesome-webfont.ttf'
+        #
+        fontawesome-fa-brands-400-eot:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-brands-400.eot'
+            output: 'webfonts/fa-brands-400.eot'
+        fontawesome-fa-brands-400-svg:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-brands-400.svg'
+            output: 'webfonts/fa-brands-400.svg'
+        fontawesome-fa-brands-400-ttf:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-brands-400.ttf'
+            output: 'webfonts/fa-brands-400.ttf'
+        fontawesome-fa-brands-400-woff:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-brands-400.woff'
+            output: 'webfonts/fa-brands-400.woff'
+        fontawesome-fa-brands-400-woff2:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-brands-400.woff2'
+            output: 'webfonts/fa-brands-400.woff2'
+        fontawesome-fa-regular-400-eot:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-regular-400.eot'
+            output: 'webfonts/fa-regular-400.eot'
+        fontawesome-fa-regular-400-svg:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-regular-400.svg'
+            output: 'webfonts/fa-regular-400.svg'
+        fontawesome-fa-regular-400-ttf:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-regular-400.ttf'
+            output: 'webfonts/fa-regular-400.ttf'
+        fontawesome-fa-regular-400-woff:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-regular-400.woff'
+            output: 'webfonts/fa-regular-400.woff'
+        fontawesome-fa-regular-400-woff2:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-regular-400.woff2'
+            output: 'webfonts/fa-regular-400.woff2'
+        fontawesome-fa-solid-900-eot:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-solid-900.eot'
+            output: 'webfonts/fa-solid-900.eot'
+        fontawesome-fa-solid-900-svg:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-solid-900.svg'
+            output: 'webfonts/fa-solid-900.svg'
+        fontawesome-fa-solid-900-ttf:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-solid-900.ttf'
+            output: 'webfonts/fa-solid-900.ttf'
+        fontawesome-fa-solid-900-woff:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-solid-900.woff'
+            output: 'webfonts/fa-solid-900.woff'
+        fontawesome-fa-solid-900-woff2:
+            inputs: '@SulmiProductBundle/Resources/public/webfonts/fa-solid-900.woff2'
+            output: 'webfonts/fa-solid-900.woff2'
+        #
+        summernoted41d-eot:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/summernoted41d.eot'
+            output: 'fonts/summernoted41d.eot'
+        summernote4c4d-woff:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/summernote4c4d.woff'
+            output: 'fonts/summernote4c4d.woff'
+        summernote4c4d-ttf:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/summernote4c4d.ttf'
+            output: 'fonts/summernote4c4d.ttf'
+        summernote4c4d-eot:
+            inputs: '@SulmiProductBundle/Resources/public/fonts/summernote4c4d.eot'
+            output: 'fonts/summernote4c4d.eot'
+        #
         fontawesome-webfont-woff:
             inputs: '@SulmiProductBundle/Resources/public/fonts/fontawesome-webfont.woff'
             output: 'fonts/fontawesome-webfont.woff'
         fontawesome-webfont-woff2:
             inputs: '@SulmiProductBundle/Resources/public/fonts/fontawesome-webfont.woff2'
             output: 'fonts/fontawesome-webfont.woff2'
+        #
         loadinggif:
             inputs: '@SulmiProductBundle/Resources/public/img/loading.gif'
             output: 'img/loading.gif'
@@ -53,7 +116,7 @@ assetic:
         iconspng:
             inputs: '@SulmiProductBundle/Resources/public/img/icons.png'
             output: 'img/icons.png'
-
+        #
         ui-icons-444444-256x240png:
             inputs: '@SulmiProductBundle/Resources/public/images/ui-icons_444444_256x240.png'
             output: 'css/images/ui-icons_444444_256x240.png'

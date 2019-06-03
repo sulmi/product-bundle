@@ -7,7 +7,7 @@ use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 /**
  * Product repository.
  * @author    Mirosław Sulowski <mirekprograms@gmail.com>
- * 
+ *
  * @link https://github.com/l3pp4rd/DoctrineExtensions/blob/master/lib/Gedmo/Translatable/Entity/Repository/TranslationRepository.php Translations implementation
  */
 class ProductRepository extends TranslationRepository
@@ -25,6 +25,14 @@ class ProductRepository extends TranslationRepository
     {
         $em = $this->getEntityManager();
         $dql = "SELECT p FROM SulmiProductBundle:Product p";
+        $query = $em->createQuery($dql);
+        return $query;
+    }
+
+    public function findListAllProductsDesc()
+    {
+        $em = $this->getEntityManager();
+        $dql = "SELECT p FROM SulmiProductBundle:Product p ORDER BY p.id desc";
         $query = $em->createQuery($dql);
         return $query;
     }
@@ -77,8 +85,8 @@ class ProductRepository extends TranslationRepository
 
         $qb = $this->createQueryBuilder('f');
         $qb->select('m')
-                ->from('SulmiProductBundle:Product', 'm')
-                ->where('m.mime not like \'%image%\'')
+            ->from('SulmiProductBundle:Product', 'm')
+            ->where('m.mime not like \'%image%\'')
         ;
         $query = $qb->getQuery();
         $data = $query->getResult();
