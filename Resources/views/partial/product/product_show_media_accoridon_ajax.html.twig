@@ -1,0 +1,5 @@
+{# slot_medias cantainer wit acordion jquery plugin #}
+<div class="col-lg-12 col-md-12" id="slot_gallery">
+    {% set allmedia = {'images': images, 'videos': videos, 'medias': medias } %}
+    {% include 'SulmiProductBundle::partial/media_slot_acordion.html.twig' with allmedia %}
+</div>

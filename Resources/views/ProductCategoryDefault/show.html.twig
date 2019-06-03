@@ -5,50 +5,50 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Productcategory</h1>
+    <h1>Kategorie</h1>
 
     <table>
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ productCategory.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ productCategory.title }}</td>
-            </tr>
-            <tr>
-                <th>Lft</th>
-                <td>{{ productCategory.lft }}</td>
-            </tr>
-            <tr>
-                <th>Rgt</th>
-                <td>{{ productCategory.rgt }}</td>
-            </tr>
-            <tr>
-                <th>Lvl</th>
-                <td>{{ productCategory.lvl }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ productCategory.slug }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ productCategory.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ productCategory.title }}</td>
+        </tr>
+        <tr>
+            <th>Lft</th>
+            <td>{{ productCategory.lft }}</td>
+        </tr>
+        <tr>
+            <th>Rgt</th>
+            <td>{{ productCategory.rgt }}</td>
+        </tr>
+        <tr>
+            <th>Lvl</th>
+            <td>{{ productCategory.lvl }}</td>
+        </tr>
+        <tr>
+            <th>Slug</th>
+            <td>{{ productCategory.slug }}</td>
+        </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('sulmi_product_category_index') }}">Back to the list</a>
+            <a href="{{ path('sulmi_product_category_index') }}">Kategorie</a>
         </li>
         <li>
-            <a href="{{ path('category_edit', { 'id': productCategory.id }) }}">Edit</a>
+            <a href="{{ path('category_edit', { 'id': productCategory.id }) }}">Edycja</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>

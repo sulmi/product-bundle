@@ -5,7 +5,7 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     <h1>Lista uzytkowników Pakietu SulmiProductBundle</h1>
@@ -20,32 +20,35 @@
     <hr>
     <table>
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Pass</th>
-                <th>Roles</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Pass</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-            {% for userEntity in userEntities %}
-                <tr>
-                    <td><a href="{{ path('userentity_show', { 'id': userEntity.id }) }}">{{ userEntity.id }}</a></td>
-                    <td>{{ userEntity.name }}</td>
-                    <td>{{ userEntity.email }}</td>
-                    <td>{{ userEntity.pass }}</td>
-                    <td>{{ render_product_role(userEntity.roles) }}</td>
-                    <td>
-                        <a class="btn btn-default btn-sm pull-left" role="button" href="{{ path('userentity_show', { 'id': userEntity.id }) }}">Zobacz</a>
-                        <a class="btn btn-info btn-sm" role="button" href="{{ path('sulmi_product_sulmi_product_userentity_delete', { 'id': userEntity.id }) }}">edit</a>
-                    </td>
-                </tr>
-            {% endfor %}
+        {% for userEntity in userEntities %}
+            <tr>
+                <td><a href="{{ path('userentity_show', { 'id': userEntity.id }) }}">{{ userEntity.id }}</a></td>
+                <td>{{ userEntity.name }}</td>
+                <td>{{ userEntity.email }}</td>
+                <td>{{ userEntity.pass }}</td>
+                <td>{{ render_product_role(userEntity.roles) }}</td>
+                <td>
+                    <a class="btn btn-default btn-sm pull-left" role="button" href="{{ path('userentity_show', { 'id': userEntity.id }) }}">Zobacz</a>
+                    <a class="btn btn-info btn-sm" role="button" href="{{ path('sulmi_product_sulmi_product_userentity_delete', { 'id': userEntity.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
     <script type="text/javascript">

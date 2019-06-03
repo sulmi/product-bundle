@@ -5,19 +5,19 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     {# https://github.com/blueimp/Gallery/blob/master/README.md#demo #}
     {% include 'SulmiProductBundle::partial/blueimp-gallery.html.twig' %}
     <div class="row">
         <div class="col-md-8">
-            <div class="row box-wrapper-inner"> 
+            <div class="row box-wrapper-inner">
                 <div class="col-xs-12 box1">
                     <h1 class="header">{{ product.name }}</h1>
                 </div>
             </div>
-            <div class="row"> 
+            <div class="row">
                 <div class="col-xs-12">
                     {{ product.description | raw }}
                 </div>
@@ -32,17 +32,17 @@
                 </div>
             </div>
             <div class="row">
-{#                <div class="col-xs-12"> 
-                    {{ form_start(delete_form) }}
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    {{ form_end(delete_form) }}
-                </div>#}
+                {#                <div class="col-xs-12">
+                                    {{ form_start(delete_form) }}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    {{ form_end(delete_form) }}
+                                </div>#}
 
             </div>
         </div>
         <div class="col-md-4">
             {# Ajax response cantainer #}
-            <div class="row"> 
+            <div class="row">
                 <div class="col-xs-12">
                     {# slot_medias cantainer wit acordion jquery plugin #}
                     <div class="row" id="slot_gallery">
@@ -58,6 +58,9 @@
             <div class="col-xs-12" id="slot_images_temp">    
             </div>
         </div>#}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
@@ -78,9 +81,9 @@
                     thumbnailIndicators: true
                 };
                 var target = event.target || event.srcElement,
-                        link = target.src ? target.parentNode : target,
-                        options = {index: link, event: event, indicatorOptions: indicatorOptions},
-                        links = this.getElementsByTagName('a');
+                    link = target.src ? target.parentNode : target,
+                    options = {index: link, event: event, indicatorOptions: indicatorOptions},
+                    links = this.getElementsByTagName('a');
                 blueimp.Gallery(links, options);
             };
         }
@@ -91,98 +94,98 @@
                 type: 'post',
                 url: '{{ path('product_ajax_form', { 'id':product.id }) }}'
             })
-                    .done(function (data) {
-                        $('#newMediaFormSlot').html(data);
-                        var ul = $('#upload ul');
-                        $('#drop a').click(function () {
-                            $(this).parent().find('input').click();
-                        });
-                        // Initialize the jQuery File Upload plugin
-                        $('#upload').fileupload({
-                            // This element will accept file drag/drop uploading
-                            dropZone: $('#drop'),
-                            // This function is called when a file is added to the queue;
-                            // either via the browse button, or via drag/drop:
-                            add: function (e, data) {
-                                var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
-                                        ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
-                                // Append the file name and file size
-                                tpl.find('p').text(data.files[0].name)
-                                        .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
-                                // Add the HTML to the UL element
-                                data.context = tpl.appendTo(ul);
-                                // Initialize the knob plugin
-                                tpl.find('input').knob();
-                                // Listen for clicks on the cancel icon
-                                tpl.find('span').click(function () {
-                                    if (tpl.hasClass('working')) {
-                                        jqXHR.abort();
-                                    }
-                                    tpl.fadeOut(function () {
-                                        tpl.remove();
-                                    });
-                                });
-                                // Automatically upload the file once it is added to the queue
-                                var jqXHR = data.submit();
-                            },
-                            progress: function (e, data) {
-                                var progress = parseInt(data.loaded / data.total * 100, 10);
-                                data.context.find('input').val(progress).change();
-                                if (progress == 100) {
-                                    data.context.removeClass('working');
+                .done(function (data) {
+                    $('#newMediaFormSlot').html(data);
+                    var ul = $('#upload ul');
+                    $('#drop a').click(function () {
+                        $(this).parent().find('input').click();
+                    });
+                    // Initialize the jQuery File Upload plugin
+                    $('#upload').fileupload({
+                        // This element will accept file drag/drop uploading
+                        dropZone: $('#drop'),
+                        // This function is called when a file is added to the queue;
+                        // either via the browse button, or via drag/drop:
+                        add: function (e, data) {
+                            var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
+                                ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+                            // Append the file name and file size
+                            tpl.find('p').text(data.files[0].name)
+                                .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
+                            // Add the HTML to the UL element
+                            data.context = tpl.appendTo(ul);
+                            // Initialize the knob plugin
+                            tpl.find('input').knob();
+                            // Listen for clicks on the cancel icon
+                            tpl.find('span').click(function () {
+                                if (tpl.hasClass('working')) {
+                                    jqXHR.abort();
                                 }
-                            },
-                            fail: function (e, data) {
-                                data.context.addClass('error');
-                            },
-                            done: function (e, data) {
-                                $('#slot_gallery').html(data.result);
-                                //--------------------------------------
-                                $('#gallery').each(function () {
-                                    blueimpgallery('gallery');
+                                tpl.fadeOut(function () {
+                                    tpl.remove();
                                 });
-                                $('#tabs').each(function () {
-                                    $(this).tabs();
-                                });
-
-                                $('#btnAjaxShowNewMediaForm')
-                                        .text('Anuluj dodawanie')
-                                        .switchClass("btn-default", "btn-success", 1000);
-
-                                $('#btnAjaxShowNewMediaForm').on("click", null, function (e) {
-
-                                    var newMediaFormSlot = $('#newMediaFormSlot');
-
-                                    if (newMediaFormSlot.html().length > 0) {
-                                        newMediaFormSlot.html('');
-                                        btnHideUpload(this);
-                                    } else if (newMediaFormSlot.html().length < 1) {
-                                        btnShowUpload(this);
-                                    }
-                                });
-
-                                // data.result
-                                // data.textStatus;
-                                // data.jqXHR;
+                            });
+                            // Automatically upload the file once it is added to the queue
+                            var jqXHR = data.submit();
+                        },
+                        progress: function (e, data) {
+                            var progress = parseInt(data.loaded / data.total * 100, 10);
+                            data.context.find('input').val(progress).change();
+                            if (progress == 100) {
+                                data.context.removeClass('working');
                             }
-                        });
-                        $(document).on('drop dragover', function (e) {
-                            e.preventDefault();
-                        });
-                        // Helper function that formats the file sizes
-                        function formatFileSize(bytes) {
-                            if (typeof bytes !== 'number') {
-                                return '';
-                            }
-                            if (bytes >= 1000000000) {
-                                return (bytes / 1000000000).toFixed(2) + ' GB';
-                            }
-                            if (bytes >= 1000000) {
-                                return (bytes / 1000000).toFixed(2) + ' MB';
-                            }
-                            return (bytes / 1000).toFixed(2) + ' KB';
+                        },
+                        fail: function (e, data) {
+                            data.context.addClass('error');
+                        },
+                        done: function (e, data) {
+                            $('#slot_gallery').html(data.result);
+                            //--------------------------------------
+                            $('#gallery').each(function () {
+                                blueimpgallery('gallery');
+                            });
+                            $('#tabs').each(function () {
+                                $(this).tabs();
+                            });
+
+                            $('#btnAjaxShowNewMediaForm')
+                                .text('Anuluj dodawanie')
+                                .switchClass("btn-default", "btn-success", 1000);
+
+                            $('#btnAjaxShowNewMediaForm').on("click", null, function (e) {
+
+                                var newMediaFormSlot = $('#newMediaFormSlot');
+
+                                if (newMediaFormSlot.html().length > 0) {
+                                    newMediaFormSlot.html('');
+                                    btnHideUpload(this);
+                                } else if (newMediaFormSlot.html().length < 1) {
+                                    btnShowUpload(this);
+                                }
+                            });
+
+                            // data.result
+                            // data.textStatus;
+                            // data.jqXHR;
                         }
                     });
+                    $(document).on('drop dragover', function (e) {
+                        e.preventDefault();
+                    });
+                    // Helper function that formats the file sizes
+                    function formatFileSize(bytes) {
+                        if (typeof bytes !== 'number') {
+                            return '';
+                        }
+                        if (bytes >= 1000000000) {
+                            return (bytes / 1000000000).toFixed(2) + ' GB';
+                        }
+                        if (bytes >= 1000000) {
+                            return (bytes / 1000000).toFixed(2) + ' MB';
+                        }
+                        return (bytes / 1000).toFixed(2) + ' KB';
+                    }
+                });
         }
         function btnHideUpload(btn) {
             //------------------------------------------------------------------

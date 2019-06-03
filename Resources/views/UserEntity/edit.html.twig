@@ -5,7 +5,7 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     <h1>Edycja użytkownik produktu</h1>
@@ -31,6 +31,9 @@
     <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 {% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
     <script type="text/javascript">

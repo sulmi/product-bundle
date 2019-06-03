@@ -5,19 +5,17 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Productcategory creation</h1>
-
+    <h1>Nowa kategoria</h1>
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    {{ form_widget(form) }}
+    <input type="submit" value="Create" />
     {{ form_end(form) }}
-
     <ul>
         <li>
-            <a href="{{ path('sulmi_product_category_index') }}">Back to the list</a>
+            <a href="{{ path('sulmi_product_category_index') }}">Kategorie</a>
         </li>
     </ul>
 {% endblock %}

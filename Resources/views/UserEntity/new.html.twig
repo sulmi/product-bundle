@@ -5,7 +5,7 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     <h1>Nowy uzytkownik produktu</h1>
@@ -21,10 +21,13 @@
     <hr>
     {% form_theme form with 'SulmiProductBundle:Product:form/fields.html.twig' %}
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Akceptój" />
+    {{ form_widget(form) }}
+    <input type="submit" value="Akceptój" />
     {{ form_end(form) }}
 {% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
     <script type="text/javascript">

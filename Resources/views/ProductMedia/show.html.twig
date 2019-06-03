@@ -5,19 +5,19 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     <div class="row">
         <div class="container-fluid">
-            <h1>Productmedia</h1>
+            <h1>Media</h1>
             {% if product is not null and product.id is not null %}
                 <hr>
                 {% for productCategory in productCategories %}
-                    <a href="{{ path('category_default_language', { 'id':productCategory.id, 'categoryslug':productCategory.slug }) }}" class="linked">{{ productCategory.title }}</a>{% if not loop.last %} | {% endif %} 
+                    <a href="{{ path('category_default_language', { 'id':productCategory.id, 'categoryslug':productCategory.slug }) }}" class="linked">{{ productCategory.title }}</a>{% if not loop.last %} | {% endif %}
                 {% endfor %}
                 <hr>
-                <a href="{{ path('product_default_language', { 'id':product.id, 'slug':product.slug }) }}" class="linked">{{ product.name }}</a> 
+                <a href="{{ path('product_default_language', { 'id':product.id, 'slug':product.slug }) }}" class="linked">{{ product.name }}</a>
             {% else %}
                 <div class="row danger">
                     Brak powiązanych produktów.

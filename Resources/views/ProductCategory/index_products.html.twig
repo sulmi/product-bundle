@@ -5,72 +5,28 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
     <h3>{{ category.title }}</h3>
     <div class="row">
-        <div class="col-xs-12"> 
+        <div class="col-xs-12">
             <a class="btn btn-default btn-sm" role="button" href="{{ path('new_product_for_category',{'id':category.id }) }}">Nowy produkt</a>
         </div>
     </div>
     <div class="row">
-        <div class="hide">        
+        <div class="hide">
             <div id="error-dialog" class="container">Wiadomosc o nie udanej probie paginacji produktow</div>
-        </div> 
-        <div class="col-xs-12 text-center" id="products-container"> 
-            {% include 'SulmiProductBundle::partial/product/product_paginated_ajax.html.twig' with { 'products':products } %} 
-        </div> 
+        </div>
+        <div class="col-xs-12 text-center" id="products-container">
+            {% include 'SulmiProductBundle::partial/product/product_paginated_ajax.html.twig' with { 'products':products } %}
+        </div>
     </div>    {# Display controls #}
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
-    <script type="text/javascript">
-        $(function () {
-            ajaxSortLinks('#container-sort-link');
-            ajaxPaginationMedias('#medias-pagination-up');
-            ajaxPaginationMedias('#medias-pagination');
-        });
-        function ajaxSortLinks(selector) {
-            $(selector).find('a').each(function () {
-                $(this).off('click').on('click', null, function (event) {
-                    event.preventDefault();
-                    var url = $(this).attr('href');
-                    $.ajax({
-                        type: 'post',
-                        url: url
-                    }).done(function (data) {
-                        $('#products-container').html(data);
-                        ajaxSortLinks('#container-sort-link');
-                        ajaxPaginationMedias('#medias-pagination-up');
-                        ajaxPaginationMedias('#medias-pagination');
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        $('#error-dialog').dialog();
-                    });
-                });
-            });
-        }
-        function ajaxPaginationMedias(paginContainer) {
-            $(paginContainer).find('ul').each(function () {
-                $(this).children().each(function () {
-                    $(this).children().first('a').off('click').on('click', null, function (event) {
-                        event.preventDefault();
-                        var url = $(this).attr('href');
-                        $.ajax({
-                            type: 'post',
-                            url: url
-                        }).done(function (data) {
-                            $('#products-container').html(data);
-                            ajaxSortLinks('#container-sort-link');
-                            ajaxPaginationMedias('#medias-pagination-up');
-                            ajaxPaginationMedias('#medias-pagination');
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#error-dialog').dialog();
-                        });
-                    });
-                });
-            });
-        }
-    </script>
 {% endblock %}
 

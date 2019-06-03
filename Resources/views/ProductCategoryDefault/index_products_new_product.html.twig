@@ -5,20 +5,19 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Products list</h1>
+    <h4>Produkty</h4>
     <div class="row">
-        <div class="col-sm-12"> 
+        <div class="col-sm-12">
             <h4>Nowy produkt dla kategorii</h4>
             {{ form_start(form) }}
             <button class="btn btn-info btn-sm" type="submit">Dodaj</button>
-            <a class="btn btn-info btn-sm" role="button" href="{{ path('sulmi_product_category_index') }}">Lista kategorii</a>
+            <a class="btn btn-info btn-sm" role="button" href="{{ path('sulmi_product_category_index') }}">Kategorie</a>
             <a class="btn btn-info btn-sm" role="button" href="{{ path('new_product_for_category',{'id':id }) }}">Nowy dla tej kategorii</a>
             {{ form_widget(form) }}
             {{ form_end(form) }}
-        </div> 
+        </div>
     </div>
-
 {% endblock %}

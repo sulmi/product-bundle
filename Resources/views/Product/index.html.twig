@@ -5,67 +5,23 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Products list</h1>
+    <h4>Lista Produktów</h4>
     <div class="row">
-        <div class="hide">        
-            <div id="error-dialog" class="container">Wiadomosc o nie udanej probie paginacji produktow</div>
-        </div> 
-        <div class="col-xs-12 text-center" id="products-container"> 
-            {% include 'SulmiProductBundle::partial/product/product_paginated_ajax.html.twig' with { 'products':products } %} 
-        </div> 
+        <div class="hide">
+            <div id="error-dialog">Wiadomosc o nie udanej probie paginacji produktow</div>
+        </div>
+        <div class="col-xs-12 text-center" id="products-container">
+            {% include 'SulmiProductBundle::partial/product/product_paginated_ajax.html.twig' with { 'products':products } %}
+        </div>
     </div>
-    <a href="{{ path('sulmi_product_product_new') }}">Create a new product</a>
+    <a href="{{ path('sulmi_product_product_new') }}">Nowy produkt</a>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
-    <script type="text/javascript">
-        $(function () {
-            ajaxSortLinks('#container-sort-link');
-            ajaxPaginationMedias('#medias-pagination-up');
-            ajaxPaginationMedias('#medias-pagination');
-        });
-        function ajaxSortLinks(selector) {
-            $(selector).find('a').each(function () {
-                $(this).off('click').on('click', null, function (event) {
-                    event.preventDefault();
-                    var url = $(this).attr('href');
-                    $.ajax({
-                        type: 'post',
-                        url: url
-                    }).done(function (data) {
-                        $('#products-container').html(data);
-                        ajaxSortLinks('#container-sort-link');
-                        ajaxPaginationMedias('#medias-pagination-up');
-                        ajaxPaginationMedias('#medias-pagination');
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        $('#error-dialog').dialog();
-                    });
-                });
-            });
-        }
-        function ajaxPaginationMedias(paginContainer) {
-            $(paginContainer).find('ul').each(function () {
-                $(this).children().each(function () {
-                    $(this).children().first('a').off('click').on('click', null, function (event) {
-                        event.preventDefault();
-                        var url = $(this).attr('href');
-                        $.ajax({
-                            type: 'post',
-                            url: url
-                        }).done(function (data) {
-                            $('#products-container').html(data);
-                            ajaxSortLinks('#container-sort-link');
-                            ajaxPaginationMedias('#medias-pagination-up');
-                            ajaxPaginationMedias('#medias-pagination');
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#error-dialog').dialog();
-                        });
-                    });
-                });
-            });
-        }
-    </script>
 {% endblock %}

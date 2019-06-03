@@ -1,25 +1,68 @@
-<div class="col-xs-12" id="products-paginated-sort-links">Sortuj: 
-    {{ knp_pagination_sortable(products, 'Data dodania', 'p.id') }}
-    {{ knp_pagination_sortable(products, 'Name', 'p.name') }}
-</div>
-<div class="col-xs-12">    
-    <div id="products_paginated_up" class="navigation">
-        {{ knp_pagination_render(products) }}
+<div class="row">
+    <div class="col-xs-12" id="products-paginated-sort-links">Sortuj:
+        {{ knp_pagination_sortable(products, 'Data dodania', 'p.id', {'direction': 'desc'}) }}
+        {{ knp_pagination_sortable(products, 'Nazwa', 'p.name', {'direction': 'desc'}) }}
     </div>
 </div>
-{% for product in products %}
-    <div class="col-xs-2 pull-left text-center">
-        {% spaceless %}
-            <div style="min-height: 10em;cursor: pointer;" id="product-{{ product.id }}" class="thumbnail" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
-                {{ render_product_media90(product) }}
-                {{ product.name }}
-            </div>
-        {% endspaceless %}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div id="products_paginated_up" class="navigation">
+            {{ knp_pagination_render(products) }}
+        </div>
     </div>
+</div>
+
+{% set counter = 0 %}
+{% for product in products if products %}
+
+    {% set counter = counter + 1 %}
+
+    {#    {% if loop.index is divisibleby(4) %}#}
+    {% if counter < 2 %}
+        <div class="row" style="border-bottom: 1px solid silver; margin-bottom: 15px;">
+        {# pierwszy z polowki #}
+        <div class="col-lg-3 col-md-3 text-center">
+            {% spaceless %}
+                <div style="cursor: pointer;" id="phome-{{ product.id }}" class="thumbnail" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                    {{ render_product_media90(product) }}
+                    {{ product.name }}<br>{{ product.price | replace({'.': ','}) }} godz.
+                </div>
+            {% endspaceless %}
+        </div>
+        {# ostatni w kolejce#}
+    {% elseif counter < 4 %}
+        <div class="col-lg-3 col-md-3 text-center">
+            {% spaceless %}
+                <div style="cursor: pointer;" id="phome-{{ product.id }}" class="thumbnail" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                    {{ render_product_media90(product) }}
+                    {{ product.name }}<br>{{ product.price | replace({'.': ','}) }} godz.
+                </div>
+            {% endspaceless %}
+        </div>
+        {# pozostale #}
+    {% else %}
+        <div class="col-lg-3 col-md-3 text-center">
+            {% spaceless %}
+                <div style="cursor: pointer;" id="phome-{{ product.id }}" class="thumbnail" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                    {{ render_product_media90(product) }}
+                    {{ product.name }}<br>{{ product.price | replace({'.': ','}) }} godz.
+                </div>
+            {% endspaceless %}
+        </div>
+        </div>
+    {% endif %}
+
+    {% if counter == 4 %}
+        {#reset counter#}
+        {% set counter = 0 %}
+    {% endif %}
 {% endfor %}
-<div class="col-xs-12">    
-    <div id="products_paginated_down" class="navigation">
-        {{ knp_pagination_render(products) }}
+<div class="row">
+    <div class="col-xs-12">
+        <div id="products_paginated_down" class="navigation">
+            {{ knp_pagination_render(products) }}
+        </div>
     </div>
 </div>
 

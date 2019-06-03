@@ -1,26 +1,26 @@
-<div class="flex-container"> 
+<div class="flex-container">
     {% if product is not null  %}
-        <a href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">                            
+        <a href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
             {{ render_product90(product) }}
             <h4>{{ product.name }}</h4>
             <hr class="hp-pr-btn-sep">
-        </a>                                                       
-        <div class="flex-item">                            
+        </a>
+        <div class="flex-item">
             <p class="content">{{ product.name }} {{ product.name }}{{ product.name }}</p>
-        </div>                                                       
+        </div>
     {% else %}
         {% include 'SulmiProductBundle::partial/product_no_media.html.twig' %}
-    {% endif %} 
-</div>                        
-<div class="hp-pr-btn-cont">                            
+    {% endif %}
+</div>
+<div class="hp-pr-btn-cont">
     <a class="btn btn-default btn-sm hp-pr-btn" role="button" href="#">
-        <span class="fa fa-shopping-cart"></span>
+        <span class="fas fa-shopping-cart"></span>
     </a>
     <a class="btn btn-default btn-sm hp-pr-btn" role="button" href="#">
-        <span class="fa fa-hand-o-right"></span>
+        <span class="fas fa-hand-o-right"></span>
     </a>
     <a class="btn btn-default btn-sm hp-pr-btn" role="button" href="#">
-        <span class="fa fa-facebook"></span>
+        <span class="fas fa-facebook"></span>
     </a>
 </div>
 

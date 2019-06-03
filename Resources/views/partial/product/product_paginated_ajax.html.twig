@@ -4,12 +4,12 @@
         Wszystkich: {{ products.getTotalItemCount }}
     </div>
 </div>
-<div class="col-xs-12" id="container-sort-link">Sortuj: 
-    {{ knp_pagination_sortable(products, 'Data dodania', 'p.id') }}
-    {{ knp_pagination_sortable(products, 'Name', 'p.name') }}
+<div class="col-xs-12" id="container-sort-link">Sortuj:
+    {{ knp_pagination_sortable(products, 'Data dodania', 'p.id', {'direction': 'desc'}) }}
+    {{ knp_pagination_sortable(products, 'Nazwa', 'p.name', {'direction': 'desc'}) }}
 </div>
-<div class="col-xs-12">        
-    <div id="medias-pagination-up" class="navigation">
+<div class="col-xs-12">
+    <div id="products_paginated_up" class="navigation">
         {{ knp_pagination_render(products) }}
     </div>
 </div>
@@ -19,35 +19,68 @@
 {% else %}
     {% set authentiticated=false %}
 {% endif %}
-<div class="col-xs-12"> 
-    {% for product in products if products %}
-        <div class="col-xs-12 col-md-12 text-left" id="phome-{{ product.id }}">            
-            <div class="thumbnail flex-container" style="max-height: 300px;padding-top: 10px;"> 
-                <div class="flex-item">                
-                    <span class="media-middle" style="max-height: 100px;max-width: 100px;float: left;margin-right: 10px;">
-                        {% if app.request.locale == app.request.defaultLocale %}
-                            <a href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">                            
+
+{% for product in products if products %}
+    {% if loop.index is not divisibleby(2) %}
+        <div class="row" style="border-bottom: 1px solid silver; margin-bottom: 10px;">
+        {# pierwszy z polowki #}
+        <div style="min-height: 150px;" class="col-lg-6 col-md-6 text-left" id="phome-{{ product.id }}">
+                <span class="media-middle" style="max-height: 100px;float: left;margin-right: 0px;">
+                    {% if app.request.locale == app.request.defaultLocale %}
+                        <span style="float: inline-start;"><a style="margin-right: 10px;float: inline-start;" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
                             {% else %}
-                                <a href="{{ path('product_default_language', { 'id': product.id, 'slug': product.slug }) }}">                            
-                                {% endif %}
-                                {{ render_product_media90(product) }}
-                            </a>
+                                <span style="float: inline-start;"><a style="margin-right: 10px;float: inline-start;" href="{{ path('product_default_language', { 'id': product.id, 'slug': product.slug }) }}">
+                                    {% endif %}
+                                        {{ render_product_media90(product) }}
+                                </a></span>
                     </span>
-                    <h4>{{ product.name }}</h4>
-                    <p class="content">{{ product.description | striptags | truncate(300) }}</p>
+                    <h4 style=""><a style="font-weight: 900;" href="{{ path('sulmi_product_product_show', {'id':product.id }) }}">{{ product.name }}</a></h4>
+                    <p class="content">{{ product.description | striptags | truncate(220) }}</p>
+                    <p class="">Czas {{ product.price | replace({'.': ','}) }} godz.</p>
                     {% if authentiticated %}
-                        <a style="position: absolute;right: 15px;top: 0px;" class="btn btn-default" role="button" href="{{ path('product_edit', {'id':product.id }) }}">
-                            <span class="fa fa-edit"></span>
+                        <a style="position: absolute;right: 80px;bottom: 0px;" class="btn btn-default prodquickgetpdf" role="button" href="{{ path('sulmi_product_get_product_pdf', {'id':product.id }) }}">
+                            <span class="fas fa-file-pdf"></span>
                         </a>
-                    {% endif %} 
-                </div>                                                       
-                </a>
-            </div>                        
+                        <a style="position: absolute;right: 42px;bottom: 0px;" class="btn btn-default prodquickremove" role="button" href="{{ path('product_delete_ajax', {'id':product.id }) }}">
+                            <span class="fas fa-trash"></span>
+                        </a>
+                        <a style="position: absolute;right: 0px;bottom: 0px;" class="btn btn-default" role="button" href="{{ path('product_edit', {'id':product.id }) }}">
+                            <span class="fas fa-edit"></span>
+                        </a>
+                    {% endif %}
         </div>
-    {% endfor %}
-</div>
-<div class="col-xs-12">    
-    <div id="medias-pagination" class="navigation">
+    {% else %}
+        <div style="min-height: 150px;" class="col-lg-6 col-md-6 text-left" id="phome-{{ product.id }}">
+                <span class="media-middle" style="max-height: 100px;float: left;margin-right: 0px;">
+                    {% if app.request.locale == app.request.defaultLocale %}
+                        <span style="float: inline-start;"><a style="margin-right: 10px;float: inline-start;" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                            {% else %}
+                                <span style="float: inline-start;"><a style="margin-right: 10px;float: inline-start;" href="{{ path('product_default_language', { 'id': product.id, 'slug': product.slug }) }}">
+                                    {% endif %}
+                                        {{ render_product_media90(product) }}
+                                </a></span>
+                    </span>
+                    <h4 style=""><a style="font-weight: 900;" href="{{ path('sulmi_product_product_show', {'id':product.id }) }}">{{ product.name }}</a></h4>
+                    <p class="content">{{ product.description | striptags | truncate(220) }}</p>
+                    <p class="">Czas {{ product.price | replace({'.': ','}) }} godz.</p>
+                    {% if authentiticated %}
+                        <a style="position: absolute;right: 80px;bottom: 0px;" class="btn btn-default prodquickgetpdf" role="button" href="{{ path('sulmi_product_get_product_pdf', {'id':product.id }) }}">
+                            <span class="fas fa-file-pdf"></span>
+                        </a>
+                        <a style="position: absolute;right: 42px;bottom: 0px;" class="btn btn-default prodquickremove" role="button" href="{{ path('product_delete_ajax', {'id':product.id }) }}">
+                            <span class="fas fa-trash"></span>
+                        </a>
+                        <a style="position: absolute;right: 0px;bottom: 0px;" class="btn btn-default" role="button" href="{{ path('product_edit', {'id':product.id }) }}">
+                            <span class="fas fa-edit"></span>
+                        </a>
+                    {% endif %}
+        </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+<div class="col-xs-12">
+    <div id="products_paginated_down" class="navigation">
         {{ knp_pagination_render(products) }}
     </div>
 </div>

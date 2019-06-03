@@ -4,68 +4,70 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% form_theme edit_form 'SulmiProductBundle:Product:form/fields.html.twig' %}
 {% block body %}
-
-    <div class="col-xs-12">    
-        <h1>{{ 'action.edit' | trans }}: {{ edit_form.vars['value'].name }}</h1>
-        <hr>
-    </div>    
-
-    <div class="col-xs-12">
-        {% if categories is not null %}
-            {% for category in categories %}
-                <a role="button" class="btn btn-default" href="{{ path('category_default_language', { 'categoryslug':category.slug,'id':category.id }) }}">
-                    {{ category.title }}
-                </a>
-            {% endfor %}
-            <hr>
-        {% endif %}
-    </div>
-    <div class="col-xs-12"> 
-        {{ form_start(edit_form) }}             
-
-        <div class="row">            
-            <div class="col-xs-12">            
-                <button class="btn btn-default btn-sm outline pull-left" name="submit" type="submit">{{ 'action.accept' | trans }}</button>  
-                <a class="btn btn-default btn-sm outline pull-left" href="{{ path('sulmi_product_index') }}">{{ 'action.back_to_product_list' | trans }}</a>
-            </div>  
-        </div>         
-        <div class="row"> 
-            <div class="col-xs-10">            
-                {{ form_row(edit_form.name) }}
-            </div>  
-            <div class="col-xs-2">            
-                {{ form_row(edit_form.price) }}
-            </div> 
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>{{ edit_form.vars['value'].name }}</h4>
+            {#        <h1>{{ 'action.edit' | trans }}: {{ edit_form.vars['value'].name }}</h1>#}
         </div>
-
-        <div class="row">            
-            <div class="col-xs-12">            
-                {{ form_row(edit_form.description) }}
-            </div>  
-        </div>         
-        {{ form_end(edit_form) }}
-
     </div>
-    <hr>
-    <div class="col-xs-12" id="action_add_product_container" style="max-height: 30em;overflow-y: auto;"></div>
-    <div class="col-xs-12" id="navigation-container" style="max-height: 20em;overflow-y: auto;">
-        {{ knp_menu_render('SulmiProductBundle:Builder:mainMenu',{'template': '@SulmiProductBundle/menu_admin.html.twig'}) }}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if categories is not null %}
+                {% for category in categories %}
+                    <a role="button" class="btn btn-default" href="{{ path('category_default_language', { 'categoryslug':category.slug,'id':category.id }) }}">
+                        {{ category.title }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
-    <hr>
-    <div class="col-xs-12">
-        {{ form_start(delete_form) }}
-        <button class="btn btn-default btn-sm outline" name="submit" type="submit">Usuń</button>
-        {{ form_end(delete_form) }}
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_start(edit_form) }}
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-success btn-sm outline pull-left" name="submit" type="submit">{{ 'action.accept' | trans }}</button>
+                    <a class="btn btn-default btn-sm outline pull-left" href="{{ path('sulmi_product_index') }}">{{ 'action.back_to_product_list' | trans }}</a>
+                    <a class="btn btn-info btn-sm outline pull-left" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">Podgląd</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10">
+                    {{ form_row(edit_form.name) }}
+                </div>
+                <div class="col-xs-2">
+                    {{ form_row(edit_form.price) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(edit_form.description) }}
+                </div>
+            </div>
+            {{ form_end(edit_form) }}
+        </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12" id="action_add_product_container" style="max-height: 30em;overflow-y: auto;"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_start(delete_form) }}
+            <button class="btn btn-default btn-sm outline" name="submit" type="submit">Usuń</button>
+            {{ form_end(delete_form) }}
+        </div>
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
-    {{ tinymce_init() }}
-
+    {#    {{ form_javascript(edit_form) }}#}
     <script type="text/javascript">
         $(function () {
 
@@ -94,8 +96,7 @@
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         $('#action_as_sibling_up_dialog').dialog();
                     });
-                }
-                else if ($(this).hasClass('btn-success')) {
+                } else if ($(this).hasClass('btn-success')) {
                     $(this).html('<span class="fa fa-edit"></span> Edytuj');
                     $(this).switchClass("btn-success", "btn-default");
                     $('#action_edit_form').parent().addClass('hide');
@@ -139,8 +140,7 @@
                             }
                         });
                     }
-                }
-                else if ($(this).hasClass('btn-success')) {
+                } else if ($(this).hasClass('btn-success')) {
                     $(this).switchClass('btn-success', 'btn-default');
                 }
             });
@@ -157,6 +157,6 @@
             });
         }
 
-    </script>
 
+    </script>
 {% endblock %}

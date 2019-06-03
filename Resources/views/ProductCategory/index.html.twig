@@ -4,370 +4,588 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
+{% if is_granted('ROLE_ADMIN') %}
+    {% set is_granted=true %}
+{% else %}
+    {% set is_granted=false %}
+{% endif %}
 {% block body %}
+    {% include 'SulmiProductBundle::partial/blueimp-gallery.html.twig' %}
     <div class="row">
+
         <div class="col-xs-4" style="">
             {#        <div class="col-xs-4" style="margin-bottom: 4em;position: fixed;max-width: 300px;">#}
             <div class="row">
                 <div class="hide" id="select_node_id"></div>
                 <div class="hide" id="select_command_node_id"></div>
+                {# Resetuj wybór #}
                 <div class="col-xs-12 hide">
                     <div id="select_node_id_label" class="btn btn-default btn-block" style="text-align: left;">Nie wybrano kategorii</div>
                 </div>
-                <div class="col-xs-12">
-                    <div id="action_add_new_category" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-plus-square"></span> Nowa kategoria</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="btn_reset" class="btn btn-default btn-block" style="text-align: left;"><span class="fas fa-refresh"></span> Resetuj wybór</div>
+                    </div>
+
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_add_new_category_form" class="btn btn-default btn-block" style="text-align: left;">formularz</div>
+                {# Resetuj wybór  #}
+                {# Nowa kategoria #}
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="action_add_new_category" class="btn btn-default btn-block" style="text-align: left;"><span class="fas fa-plus-square"></span> Nowa kategoria</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="btn_reset" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-refresh"></span> Resetuj wybór</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_new_category_form" class="btn-block text-left" style="padding: 5px;border: 1px solid silver;">formularz</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_edit" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-edit"></span> Edytuj</div>
+                {# Nowa kategoria koniec #}
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_edit" class="btn btn-default btn-block" style="text-align: left;"><span class="fas fa-edit"></span> Edytuj</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_edit_form" class="btn btn-default btn-block" style="text-align: left;"></div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_edit_form" class="btn-block text-left" style="padding: 5px;border: 1px solid silver;"></div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_add_product" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-edit"></span> Dodaj produkt</div>
+                {# dodawanie szybkiego produktu #}
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_quick_product_btn" class="btn btn-default btn-block" style="text-align: left;"><span class="fas fa-edit"></span> Szybkie produkty</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_add_quick_product" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-edit"></span> Dodaj szybki produkt</div>
+                <div class="row">
+                    <div class="col-xs-12 text-left hide">
+                        <div id="action_add_quick_product_form_cantainer" class="btn-block text-left" style="padding: 5px;border: 1px solid silver;"></div>
+                    </div>
+
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_add_quick_product_cantainer" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-edit"></span> Dodaj szybki produkt</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_quick_product_cantainer" class="btn-block text-left"  style="padding: 5px;border: 1px solid silver; max-height: 400px;overflow-y: auto;"></div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div style="max-height: 400px;overflow-y: auto;" id="action_add_product_small_container" class="row"></div>
+                {# dodawanie szybkiego produktu koniec #}
+                {# zarzadzanie produktami #}
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_product" class="btn btn-default btn-block" style="text-align: left;"><span class="fas fa-edit"></span> Zarządzaj produktami</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_remove_from_tree" class="btn btn-default btn-block" style="text-align: left;"><span class="fa fa-remove"></span> Usuń tylko</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_product_small_container" class="btn-block text-left" style="padding: 5px;border: 1px solid silver;max-height: 400px;overflow-y: auto;"></div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div title="Usuwanie jednej kategorii" id="action_remove_from_tree_dialog"><span class="fa fa-remove"></span> Usuń z drzewa?</div>
-                    <div title="Błąd!" id="action_as_sibling_up_dialog"><span class="fa fa-remove"></span> Nie można zmienić chierarchi i przenieść wyżej.</div>
-                    <div title="Błąd!" id="action_as_sibling_dialog"><span class="fa fa-remove"></span> Nie można zmienić chierarchi i przenieść niżej.</div>
-                </div> 
-                <div class="col-xs-12 hide">
-                    <div id="action_add_new_subcategory" class="btn btn-default btn-block" style="text-align: left;">Dodaj nowe</div>
+                {# zarzadzanie produktami kiniec #}
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_remove_from_tree" class="btn btn-default btn-block" style="text-align: left;"><span class="fas fa-trah-alt"></span> Usuń tylko</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_add_new_subcategory_form" class="btn btn-default btn-block" style="text-align: left;">formularz</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div title="Usuwanie jednej kategorii" id="action_remove_from_tree_dialog"><span class="fas fa-trash-alt"></span> Usuń z drzewa?</div>
+                        <div title="Błąd!" id="action_as_sibling_up_dialog"><span class="fas fa-remove"></span> Nie można zmienić chierarchi i przenieść wyżej.</div>
+                        <div title="Błąd!" id="action_as_sibling_dialog"><span class="fas fa-remove"></span> Nie można zmienić chierarchi i przenieść niżej.</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_as_first_child" class="btn btn-default btn-block" style="text-align: left;">Nadkategoria</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_new_subcategory" class="btn btn-default btn-block" style="text-align: left;">Dodaj nowe</div>
+                    </div>
                 </div>
-                <div class="col-xs-12 hide">
-                    <div id="action_as_sibling" class="btn btn-default btn-block" style="text-align: left;">Sąsiad</div>
-                </div>                
-                <div class="col-xs-12 hide">
-                    <div id="action_as_sibling_up" class="btn btn-default btn-block" style="text-align: left;">Sąsiad na gorze</div>
-                </div>                
-                <div class="col-xs-12 hide">
-                    <div id="select_command_node_label" class="btn btn-default btn-block">Nie wybrano do edycji.</div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_add_new_subcategory_form" class="btn-block text-left" style="padding: 5px;border: 1px solid silver;">formularz</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_as_first_child" class="btn btn-default btn-block" style="text-align: left;">Nadkategoria</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_as_sibling" class="btn btn-default btn-block" style="text-align: left;">Sąsiad</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="action_as_sibling_up" class="btn btn-default btn-block" style="text-align: left;">Sąsiad na gorze</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 hide">
+                        <div id="select_command_node_label" class="btn btn-default btn-block">Nie wybrano do edycji.</div>
+                    </div>
                 </div>
             </div>
         </div>
+        {#druga kolumna#}
         <div class="col-xs-8">
-            <div class="col-xs-12">
-                <h1>Productcategories list</h1>
+            <div class="row">
+                <div class="col-xs-12">
+                    {#                    slot informacyjny#}
+                </div>
             </div>
-            <div class="col-xs-12" id="action_add_product_container" style="max-height: 30em;overflow-y: auto;"></div>
-            <div class="col-xs-12" id="navigation-container" style="max-height: 20em;overflow-y: auto;">
-                {{ knp_menu_render('SulmiProductBundle:Builder:mainMenu',{'template': '@SulmiProductBundle/menu_admin.html.twig'}) }}
+            <div class="row hide" id="newMediaFormSlot"></div>
+            <div class="row hide" id="slot_gallery_container"></div>
+            <div class="row">
+                <div class="col-xs-12" id="action_add_product_container" style="max-height: 650px;overflow-y: auto;"></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" id="navigation-container" style="max-height: 20em;overflow-y: auto;">{{ knp_menu_render('SulmiProductBundle:Builder:mainMenu',{'template': '@SulmiProductBundle/menu_admin.html.twig'}) }}</div>
             </div>
         </div>
     </div>
-    {% endblock %}
-    {% block footerjavascripts %}
-        {{ parent() }}
-        <script type="text/javascript">
-            $(function () {
+{% endblock %}
+{#blok java script#}
+{#{% if is_granted  %}#}
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
+{% block footerjavascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function () {
 
-                var footer = $(".footer");
-                var footerh = footer.outerHeight();
-                var footerposition = footer.position();
-                footerposition = Math.floor(footerposition.top);
-                var navposition = $("#navigation-container");
-                var navh = navposition.outerHeight();
-                navposition = navposition.position();
-                navposition = Math.floor(navposition.top);
+            var footer = $(".footer");
+            var footerh = footer.outerHeight();
+            var footerposition = footer.position();
+            footerposition = Math.floor(footerposition.top);
+            var navposition = $("#navigation-container");
+            var navh = navposition.outerHeight();
+            navposition = navposition.position();
+            navposition = Math.floor(navposition.top);
+            //ajaxSortLinks('#container-sort-link');
+            //ajaxSortLinks('#products-paginated-sort-links');
+            //ajaxPagination('#products_paginated_up');
+            //ajaxPagination('#products_paginated_down');
+            if ((footerposition - navposition) > navh) {
+                var navheight = footerposition - navposition - footerh - 30;
+                console.log(navheight);
+                $('#navigation-container').css({'maxHeight': navheight + 'px'});
+            }
 
-                if ((footerposition - navposition) > navh) {
-                    var navheight = footerposition - navposition - footerh - 30;
-                    console.log(navheight);
-                    $('#navigation-container').css({'maxHeight': navheight + 'px'});
-                }
-                $('div').filter(function () {
-                    return this.id.match(/node\-\d+/);
-                }).each(function () {
-                    newButton(this);
-                });
-                $('#btn_reset').on("click", null, function (event) {
-                    unColorActiveNodes();
-                    $('#action_as_first_child').parent().addClass('hide');
-                    $('#action_edit')
-                        .parent().addClass('hide')
-                        .children().first().switchClass('btn-success', 'btn-default');
-                    $('#btn_reset').parent().addClass('hide');
-                    $('#action_edit_form').parent().addClass('hide');
-                    $('#action_as_sibling').parent().addClass('hide');
-                    $('#action_as_sibling_up').parent().addClass('hide');
-                    $('#action_add_new_subcategory_form').parent().addClass('hide');
-                    $('#action_remove_from_tree').parent().addClass('hide');
-                    $('#action_add_new_subcategory')
-                        .parent().addClass('hide')
-                        .children().first().switchClass('btn-success', 'btn-default');
-                    $('#action_add_product')
-                        .parent().addClass('hide')
-                        .children().first().switchClass('btn-success', 'btn-default');
-                    //$('#action_add_product_container').infinitescroll('destroy');
-                    $('#action_add_product_container').addClass('hide');
-                    $('#action_add_product_small_container').parent().addClass('hide');
-                    $('#action_add_quick_product_cantainer').parent().addClass('hide');
+            $('div').filter(function () {
+                return this.id.match(/node\-\d+/);
+            }).each(function () {
+                newButton(this);
+            });
+
+            $('#btn_reset').on("click", null, function (event) {
+                unColorActiveNodes();
+                $('#action_as_first_child').parent().addClass('hide');
+                $('#action_edit')
+                    .parent().addClass('hide')
+                    .children().first().switchClass('btn-success', 'btn-default');
+                $('#btn_reset').parent().addClass('hide');
+                $('#action_edit_form').parent().addClass('hide');
+                $('#action_as_sibling').parent().addClass('hide');
+                $('#action_as_sibling_up').parent().addClass('hide');
+                $('#action_add_new_subcategory_form').parent().addClass('hide');
+                $('#action_remove_from_tree').parent().addClass('hide');
+                $('#action_add_new_subcategory')
+                    .parent().addClass('hide')
+                    .children().first().switchClass('btn-success', 'btn-default');
+                $('#action_add_product')
+                    .parent().addClass('hide')
+                    .children().first().switchClass('btn-success', 'btn-default');
+                //$('#action_add_product_container').infinitescroll('destroy');
+                $('#action_add_product_container').addClass('hide');
+                $('#action_add_product_small_container').parent().addClass('hide');
+                $('#slot_gallery_container').addClass('hide');
+                $('#newMediaFormSlot').addClass('hide');
+                $('#action_add_quick_product_btn').parent().addClass('hide');
+                $('#action_add_quick_product_form_cantainer').parent().addClass('hide');
+                $('#action_add_quick_product_cantainer').parent().addClass('hide');
+                initButtons();
+                //.children().first().switchClass('btn-success', 'btn-default');
+            });
+
+            $('#action_as_sibling').on("click", null, function (event) {
+                event.preventDefault();
+                var rp = getRouteParams();
+                $.ajax({
+                    type: 'post',
+                    url: '{{ path('sulmi_product_category_index_ajax') }}sibling/' + rp[0] + '/' + rp[1]
+                }).done(function (data) {
+                    $('#navigation-container').html(data);
                     initButtons();
-                    //.children().first().switchClass('btn-success', 'btn-default');
-                });
-
-                $('#action_as_sibling').on("click", null, function (event) {
-                    event.preventDefault();
-                    var rp = getRouteParams();
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ path('sulmi_product_category_index_ajax') }}sibling/' + rp[0] + '/' + rp[1]
-                    }).done(function (data) {
-                        $('#navigation-container').html(data);
-                        initButtons();
-                        colorActiveNodes();
-                        refreshMenu();
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        $('#action_as_sibling_up_dialog').dialog();
-                    });
-                });
-
-                $('#action_as_sibling_up').on("click", null, function (event) {
-                    event.preventDefault();
-                    var rp = getRouteParams();
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ path('sulmi_product_category_index_ajax') }}siblingup/' + rp[0] + '/' + rp[1]
-                    }).done(function (data) {
-                        $('#navigation-container').html(data);
-                        initButtons();
-                        colorActiveNodes();
-                        refreshMenu();
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        $('#action_as_sibling_up_dialog').dialog();
-                    });
-                });
-
-                $('#action_as_first_child').on("click", null, function (event) {
-                    event.preventDefault();
-                    var rp = getRouteParams();
-                    $.ajax({
-                        type: 'post',
-                        url: '{{ path('sulmi_product_category_index_ajax') }}firstchild/' + rp[0] + '/' + rp[1]
-                    }).done(function (data) {
-                        $('#navigation-container').html(data);
-                        refreshMenu();
-                        $('div').filter(function () {
-                            return this.id.match(/node\-\d+/);
-                        }).each(function () {
-                            newButton(this);
-                            colorActiveNodes();
-                        });
-                    }).fail(function (jqXHR, textStatus, errorThrown) {
-                        $('#action_as_sibling_up_dialog').dialog();
-                    });
-                });
-
-                $('#action_add_new_subcategory').on("click", null, function (event) {
-                    event.preventDefault();
-                    var rp = getRouteParams();
-
-                    if ($(this).hasClass('btn-default')) {
-                        $(this).text('Anuluj dodawanie').switchClass("btn-default", "btn-success");
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ path('sulmi_product_category_index_ajax') }}newsubcategory/' + rp[0]
-                        }).done(function (data) {
-                            $('#action_add_new_subcategory_form')
-                                .html(data)
-                                .parent()
-                                .removeClass('hide')
-                                .find('form').each(function () {
-                                //$(this).find('input').first().css({width: '100%'});
-                                newSubCatAjaxFormInit(this);
-                            });
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#action_as_sibling_up_dialog').dialog();
-                        });
-                    }
-                    else if ($(this).hasClass('btn-success')) {
-                        $(this).html('<span class="fa fa-sitemap"></span> <span class="text-success">' + $('#select_node_id_label').text() + '</span> <span class="fa fa-plus-square"></span> Dodaj podkategorię');
-                        $(this).switchClass("btn-success", "btn-default");
-                        $('#action_add_new_subcategory_form').parent().addClass('hide');
-                    }
-                });
-
-                $('#action_add_new_category').on("click", null, function (event) {
-                    event.preventDefault();
-                    if ($(this).hasClass('btn-default')) {
-                        $(this).text('Anuluj dodawanie').switchClass("btn-default", "btn-success");
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ path('newcategory_ajax') }}'
-                        }).done(function (data) {
-                            $('#action_add_new_category_form')
-                                .html(data)
-                                .parent()
-                                .removeClass('hide')
-                                .find('form').each(function () {
-                                //$(this).find('input').each(function (){$(this).css({width:'100%',float:'none'});});
-                                //$(this).find('select').each(function (){$(this).css({width:'100%',float:'none'});});
-
-                                newCatAjaxFormInit(this);
-
-                            });
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#action_as_sibling_up_dialog').dialog();
-                        });
-                    }
-                    else if ($(this).hasClass('btn-success')) {
-                        $(this).html('<span class="fa fa-plus-square"></span> Nowa kategoria');
-                        $(this).switchClass("btn-success", "btn-default");
-                        $('#action_add_new_category_form').parent().addClass('hide');
-                    }
-                });
-
-                $('#action_edit').on("click", null, function (event) {
-                    if ($(this).hasClass('btn-default')) {
-                        $(this).text('Anuluj edycję').switchClass("btn-default", "btn-success");
-                        var rp = getRouteParams();
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ path('sulmi_product_category_index_ajax') }}' + rp[0] + '/edit'
-                        }).done(function (data) {
-                            $('#action_edit_form')
-                                .html(data)
-                                .parent()
-                                .removeClass('hide')
-                                .find('form').each(function () {
-                                editCatAjaxFormInit(this);
-                                $(this).find('input').first().css({width: '100%'});
-                            });
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#action_as_sibling_up_dialog').dialog();
-                        });
-                    }
-                    else if ($(this).hasClass('btn-success')) {
-                        $(this).html('<span class="fa fa-edit"></span> Edytuj');
-                        $(this).switchClass("btn-success", "btn-default");
-                        $('#action_edit_form').parent().addClass('hide');
-                    }
-                });
-
-                $('#action_add_quick_product').on("click", null, function (event) {
-                    if ($(this).hasClass('btn-default')) {
-                        $(this).text('Anuluj szybkie dodawanie').switchClass("btn-default", "btn-success");
-                        //zaladuj do malego zbiornika
-                        var rp = getRouteParams();
-                        //console.log(rp);
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ path('product_index_ajax') }}newincategory/' + rp[0]
-                        }).done(function (data) {
-                            $('#action_add_quick_product_cantainer')
-                                .html(data)
-                                .parent()
-                                .removeClass('hide')
-                                .find('form').each(function () {
-                                newProductInCatAjaxFormInit(this);
-                            });
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#action_as_sibling_up_dialog').dialog();
-                        });
-
-                    }
-                    else if ($(this).hasClass('btn-success')) {
-                        $(this).html('<span class="fa fa-edit"></span> Dodaj szybki produkt');
-                        $(this).switchClass("btn-success", "btn-default");
-                        $('#action_add_quick_product_cantainer').parent().addClass('hide');
-                    }
-                });
-
-                $('#action_add_product').on("click", null, function (event) {
-                    if ($(this).hasClass('btn-default')) {
-                        $(this).text('Anuluj dodawanie').switchClass("btn-default", "btn-success");
-                        //zaladuj do malego zbiornika
-                        var rp = getRouteParams();
-                        //------------------------------------------------------
-                        $.ajax({
-                            type: 'post', ///smallproducts/{id}
-                            url: '{{ path('product_index_ajax') }}smallproducts/' + rp[0]
-                        }).done(function (data) {
-                            $('#action_add_product_small_container')
-                                .html(data)
-                                .parent()
-                                .removeClass('hide');
-
-                        }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#action_as_sibling_up_dialog').dialog();
-                        });
-                        //------------------------------------------------------
-                        getProducts();
-                    }
-                    else if ($(this).hasClass('btn-success')) {
-                        $(this).html('<span class="fa fa-edit"></span> Dodaj produkt');
-                        $(this).switchClass("btn-success", "btn-default");
-                        $('#action_add_product_container').addClass('hide');
-                        $('#action_add_product_small_container').parent().addClass('hide');
-                    }
-                });
-
-                $('#action_remove_from_tree').on("click", null, function (event) {
-                    var rp = getRouteParams();
-                    $("#action_remove_from_tree_dialog")
-                        .html('Usunąć <strong>' + $("#select_node_id_label").text() + '<strong>?')
-                        .dialog({
-                            buttons: [{
-                                    text: "Usuń",
-                                    icons: {primary: "ui-icon-check"},
-                                    click: function () {
-                                        $.ajax({
-                                            type: 'post',
-                                            url: '{{ path('sulmi_product_category_index_ajax') }}removefromtree/' + rp[0]
-                                        })
-                                            .done(function (data) {
-                                                $('#navigation-container').html(data);
-                                                refreshMenu();
-                                                $('#btn_reset').click();
-                                            }).fail(function (jqXHR, textStatus, errorThrown) {
-                                            $('#action_as_sibling_up_dialog').dialog();
-                                        });
-                                        $(this).dialog("close");
-                                    }
-                                },
-                                {
-                                    text: "Anuluj",
-                                    icons: {primary: "ui-icon-close"},
-                                    click: function () {
-                                        $(this).dialog("close");
-                                    }
-                                }
-                            ]
-                        });
+                    colorActiveNodes();
+                    refreshMenu();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#action_as_sibling_up_dialog').dialog();
                 });
             });
 
+            $('#action_as_sibling_up').on("click", null, function (event) {
+                event.preventDefault();
+                var rp = getRouteParams();
+                $.ajax({
+                    type: 'post',
+                    url: '{{ path('sulmi_product_category_index_ajax') }}siblingup/' + rp[0] + '/' + rp[1]
+                }).done(function (data) {
+                    $('#navigation-container').html(data);
+                    initButtons();
+                    colorActiveNodes();
+                    refreshMenu();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#action_as_sibling_up_dialog').dialog();
+                });
+            });
+
+            $('#action_as_first_child').on("click", null, function (event) {
+                event.preventDefault();
+                var rp = getRouteParams();
+                $.ajax({
+                    type: 'post',
+                    url: '{{ path('sulmi_product_category_index_ajax') }}firstchild/' + rp[0] + '/' + rp[1]
+                }).done(function (data) {
+                    $('#navigation-container').html(data);
+                    refreshMenu();
+                    $('div').filter(function () {
+                        return this.id.match(/node\-\d+/);
+                    }).each(function () {
+                        newButton(this);
+                        colorActiveNodes();
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#action_as_sibling_up_dialog').dialog();
+                });
+            });
+
+            $('#action_add_new_subcategory').on("click", null, function (event) {
+                event.preventDefault();
+                var rp = getRouteParams();
+
+                if ($(this).hasClass('btn-default')) {
+                    $(this).text('Ukryj menadżera produktów').switchClass("btn-default", "btn-success");
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('sulmi_product_category_index_ajax') }}newsubcategory/' + rp[0]
+                    }).done(function (data) {
+                        $('#action_add_new_subcategory_form')
+                            .html(data)
+                            .parent()
+                            .removeClass('hide')
+                            .find('form').each(function () {
+                            //$(this).find('input').first().css({width: '100%'});
+                            newSubCatAjaxFormInit(this);
+                        });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+                } else if ($(this).hasClass('btn-success')) {
+                    $(this).html('<span class="fas fa-sitemap"></span> <span class="text-success">' + $('#select_node_id_label').text() + '</span> <span class="fas fa-plus-square"></span> Dodaj podkategorię');
+                    $(this).switchClass("btn-success", "btn-default");
+                    $('#action_add_new_subcategory_form').parent().addClass('hide');
+                }
+            });
+
+            $('#action_add_new_category').on("click", null, function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('btn-default')) {
+                    $(this).text('Anuluj dodawanie kategori').switchClass("btn-default", "btn-success");
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('newcategory_ajax') }}'
+                    }).done(function (data) {
+                        $('#action_add_new_category_form')
+                            .html(data)
+                            .parent()
+                            .removeClass('hide')
+                            .find('form').each(function () {
+                            //$(this).find('input').each(function (){$(this).css({width:'100%',float:'none'});});
+                            //$(this).find('select').each(function (){$(this).css({width:'100%',float:'none'});});
+
+                            newCatAjaxFormInit(this);
+
+                        });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+                } else if ($(this).hasClass('btn-success')) {
+                    $(this).html('<span class="fas fa-plus-square"></span> Nowa kategoria');
+                    $(this).switchClass("btn-success", "btn-default");
+                    $('#action_add_new_category_form').parent().addClass('hide');
+                }
+            });
+
+            $('#action_edit').on("click", null, function (event) {
+                if ($(this).hasClass('btn-default')) {
+                    $(this).text('Anuluj edycję').switchClass("btn-default", "btn-success");
+                    var rp = getRouteParams();
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('sulmi_product_category_index_ajax') }}' + rp[0] + '/edit'
+                    }).done(function (data) {
+                        $('#action_edit_form')
+                            .html(data)
+                            .parent()
+                            .removeClass('hide')
+                            .find('form').each(function () {
+                            editCatAjaxFormInit(this);
+                            $(this).find('input').first().css({width: '100%'});
+                        });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+                } else if ($(this).hasClass('btn-success')) {
+                    $(this).html('<span class="fas fa-edit"></span> Edytuj');
+                    $(this).switchClass("btn-success", "btn-default");
+                    $('#action_edit_form').parent().addClass('hide');
+                }
+            });
+
+            $('#action_add_quick_product_btn').on("click", null, function (event) {
+                if ($(this).hasClass('btn-default')) {
+                    $(this).text('Anuluj szybkie produkty').switchClass("btn-default", "btn-success");
+                    //zaladuj do malego zbiornika
+                    var rp = getRouteParams();
+                    //console.log(rp);
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('product_index_ajax') }}newincategory/' + rp[0]
+                    }).done(function (data) {
+                        $('#action_add_quick_product_form_cantainer')
+                            .html(data)
+                            .parent()
+                            .removeClass('hide')
+                            .find('form').each(function () {
+                            newProductInCatAjaxFormInit(this);
+                        });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+
+                } else if ($(this).hasClass('btn-success')) {
+                    $(this).html('<span class="fas fa-edit"></span> Szybkie produkty');
+                    $(this).switchClass("btn-success", "btn-default");
+                    $('#action_add_quick_product_form_cantainer').parent().addClass('hide');
+                    $('#action_add_product_container').addClass('hide');
+                    $('#newMediaFormSlot').addClass('hide');
+                    $('#slot_gallery_container').addClass('hide');
+                }
+            });
+
+            $('#action_add_product').on("click", null, function (event) {
+                if ($(this).hasClass('btn-default')) {
+                    $(this).text('Zamknij menadżera produktów').switchClass("btn-default", "btn-success");
+                    //zaladuj do malego zbiornika
+                    var rp = getRouteParams();
+                    //------------------------------------------------------
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('product_index_ajax') }}smallproducts/' + rp[0]
+                    }).done(function (data) {
+                        $('#action_add_product_small_container')
+                            .html(data)
+                            .parent()
+                            .removeClass('hide');
+                        initBigButtons();
+                        initSmallButtons();
+
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+                    //------------------------------------------------------
+                    getProducts();
+                } else if ($(this).hasClass('btn-success')) {
+                    $(this).html('<span class="fas fa-edit"></span> Menadżer produktów');
+                    $(this).switchClass("btn-success", "btn-default");
+                    $('#newMediaFormSlot').addClass('hide');
+                    $('#slot_gallery_container').addClass('hide');
+                    $('#action_add_product_container').addClass('hide');
+                    $('#action_add_product_small_container').parent().addClass('hide');
+                }
+            });
+
+            $('#action_remove_from_tree').on("click", null, function (event) {
+                var rp = getRouteParams();
+                $("#action_remove_from_tree_dialog")
+                    .html('Usunąć <strong>' + $("#select_node_id_label").text() + '<strong>?')
+                    .dialog({
+                        buttons: [{
+                            text: "Usuń",
+                            icons: {primary: "ui-icon-check"},
+                            click: function () {
+                                $.ajax({
+                                    type: 'post',
+                                    url: '{{ path('sulmi_product_category_index_ajax') }}removefromtree/' + rp[0]
+                                })
+                                    .done(function (data) {
+                                        $('#navigation-container').html(data);
+                                        refreshMenu();
+                                        $('#btn_reset').click();
+                                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                                    $('#action_as_sibling_up_dialog').dialog();
+                                });
+                                $(this).dialog("close");
+                            }
+                        },
+                            {
+                                text: "Anuluj",
+                                icons: {primary: "ui-icon-close"},
+                                click: function () {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        ]
+                    });
+            });
+            //------------------------------------------------------------------
+            function btnShowUpload(btn, btnid) {
+                $(btn).switchClass("btn-default", "btn-success", 1000);
+                $(btn).text("Anuluj dodawanie");
+                $.ajax({
+                    type: 'post',
+                    url: '{{ path('sulmi_product_index') }}productaddmediaajaxform/' + btnid
+                }).done(function (data) {
+                    $('#newMediaFormSlot').html(data).removeClass('hide');
+                    var ul = $('#upload ul');
+                    $('#drop a').click(function () {
+                        $(this).parent().find('input').click();
+                    });
+                    $('#upload').fileupload({
+                        dropZone: $('#drop'),
+                        add: function (e, data) {
+                            var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
+                                ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
+                            tpl.find('p').text(data.files[0].name)
+                                .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
+                            data.context = tpl.appendTo(ul);
+                            tpl.find('input').knob();
+                            tpl.find('span').click(function () {
+                                if (tpl.hasClass('working')) {
+                                    jqXHR.abort();
+                                }
+                                tpl.fadeOut(function () {
+                                    tpl.remove();
+                                });
+                            });
+                            var jqXHR = data.submit();
+                        },
+                        progress: function (e, data) {
+                            var progress = parseInt(data.loaded / data.total * 100, 10);
+                            data.context.find('input').val(progress).change();
+                            if (progress == 100) {
+                                data.context.removeClass('working');
+                            }
+                        },
+                        fail: function (e, data) {
+                            data.context.addClass('error');
+                        },
+                        done: function (e, data) {
+                            $('#slot_gallery').html(data.result);
+                            //--------------------------------------
+                            $('#gallery').each(function () {
+                                blueimpgallery('gallery');
+                            });
+                            $('#tabs').each(function () {
+                                $(this).tabs();
+                            });
+
+                            $('#btnAjaxShowNewMediaForm')
+                                .text('Anuluj dodawanie')
+                                .switchClass("btn-default", "btn-success", 1000);
+
+                            $('#btnAjaxShowNewMediaForm').on("click", null, function (e) {
+
+                                var newMediaFormSlot = $('#newMediaFormSlot');
+
+                                if (newMediaFormSlot.html().length > 0) {
+                                    newMediaFormSlot.html('');
+                                    btnHideUpload(this);
+                                } else if (newMediaFormSlot.html().length < 1) {
+                                    btnShowUpload(this);
+                                }
+                            });
+
+                            // data.result
+                            // data.textStatus;
+                            // data.jqXHR;
+                        }
+                    });
+
+                    $(document).on('drop dragover', function (e) {
+                        e.preventDefault();
+                    });
+                    // Helper function that formats the file sizes
+                    function formatFileSize(bytes) {
+                        if (typeof bytes !== 'number') {
+                            return '';
+                        }
+                        if (bytes >= 1000000000) {
+                            return (bytes / 1000000000).toFixed(2) + ' GB';
+                        }
+                        if (bytes >= 1000000) {
+                            return (bytes / 1000000).toFixed(2) + ' MB';
+                        }
+                        return (bytes / 1000).toFixed(2) + ' KB';
+                    }
+                });
+            }
+            function btnHideUpload(btn) {
+                //------------------------------------------------------------------
+                $('#newMediaFormSlot').html('');
+                $(btn).switchClass('btn-success', 'btn-default', 1000);
+                $(btn).text("Dodaj media");
+            }
+            //------------------------------------------------------------------
+            //make gallery for any list images
+            function blueimpgallery(container) {
+                document.getElementById(container).onclick = function (event) {
+                    event = event || window.event;
+                    var indicatorOptions = {
+                        indicatorContainer: 'ol',
+                        activeIndicatorClass: 'active',
+                        thumbnailProperty: 'thumbnail',
+                        thumbnailIndicators: true
+                    };
+                    var target = event.target || event.srcElement,
+                        link = target.src ? target.parentNode : target,
+                        options = {index: link, event: event, indicatorOptions: indicatorOptions},
+                        links = this.getElementsByTagName('a');
+                    blueimp.Gallery(links, options);
+                };
+            }
             /**
-             * 
-             * @param {type} btn
-             * @return {undefined}
-             */
+             *
+             * @param {type} paginContainer
+             * @returns {undefined}
+             **/
+            function ajaxPaginationMedias(paginContainer) {
+                $(paginContainer).find('ul').each(function () {
+                    $(this).children().each(function () {
+                        $(this).children().first('a').off('click').on('click', null, function (event) {
+                            event.preventDefault();
+                            var url = $(this).attr('href');
+                            $.ajax({
+                                type: 'post',
+                                url: url
+                            }).done(function (data) {
+                                $('#products-container').html(data);
+                                ajaxSortLinksCategoryAdmin('#container-sort-link');
+                                ajaxPaginationMedias('#medias-pagination-up');
+                                ajaxPaginationMedias('#medias-pagination');
+                                ajaxDeleteBtn();
+                                ajaxGetPdfBtn();
+                                initSmallButtons();
+                                initBigButtons();
+                            }).fail(function (jqXHR, textStatus, errorThrown) {
+                                $('#error-dialog').dialog();
+                            });
+                        });
+                    });
+                });
+            }
 
             function newButton(btn) {
                 $(btn).off('click').on("click", null, function (event) {
@@ -376,19 +594,19 @@
                         $('#select_node_id').html($(this).attr('id'));
                         $('#select_node_id_label').html($(this).text());
                         $('#action_add_new_subcategory')
-                            .html('<span class="fa fa-sitemap"></span> <span class="text-success">' + $(this).text() + '</span> <span class="fa fa-plus-square"></span> Dodaj podkategorię')
+                            .html('<span class="fas fa-sitemap"></span> <span class="text-success">' + $(this).text() + '</span> <span class="fas fa-plus-square"></span> Dodaj podkategorię')
                             .parent().removeClass('hide');
                         $('#action_edit')
-                            .html('<span class="fa fa-edit"></span> Edytuj <span class="text-success">' + $(this).text() + '</span>')
+                            .html('<span class="fas fa-edit"></span> Edytuj <span class="text-success">' + $(this).text() + '</span>')
                             .parent().removeClass('hide');
                         $('#action_remove_from_tree')
-                            .html('<span class="fa fa-remove"></span> Usuń tylko <span class="text-success">' + $(this).text() + '</span>')
+                            .html('<span class="fas fa-trash-alt"></span> Usuń tylko <span class="text-success">' + $(this).text() + '</span>')
                             .parent().removeClass('hide');
                         $('#action_add_product')
-                            .html('<span class="fa fa-plus-square"></span> Produkt do <span class="text-success">' + $(this).text() + '</span>')
+                            .html('<span class="fas fa-plus-square"></span> Menadżer produktów <span class="text-success">' + $(this).text() + '</span>')
                             .parent().removeClass('hide');
-                        $('#action_add_quick_product')
-                            .html('<span class="fa fa-plus-square"></span> Szybki produkt do <span class="text-success">' + $(this).text() + '</span>')
+                        $('#action_add_quick_product_btn')
+                            .html('<span class="fas fa-plus-square"></span> Szybkie produkty <span class="text-success">' + $(this).text() + '</span>')
                             .parent().removeClass('hide');
 
                         //if ($('#action_edit_form').html().length > 1 && $('#select_command_node_id').text().length < 1) {
@@ -407,13 +625,13 @@
                                         $(this).switchClass('btn-default', 'btn-danger');
                                         $('#select_command_node_id').html($(this).attr('id'));
                                         $('#action_as_first_child')
-                                            .html('<span class="fa fa-sitemap"> </span> <span class="text-success">' + $('#select_node_id_label').html() + '</span> <span class="fa fa-level-down"></span> <span class="text-danger">' + $(this).text() + '</span>')
+                                            .html('<span class="fas fa-sitemap"> </span> <span class="text-success">' + $('#select_node_id_label').html() + '</span> <span class="fas fa-level-down-alt"></span> <span class="text-danger">' + $(this).text() + '</span>')
                                             .parent().removeClass('hide');
                                         $('#action_as_sibling')
-                                            .html('<span class="fa fa-list-ol"></span> <span class="text-success"> ' + $('#select_node_id_label').html() + '</span> <span class="fa fa-long-arrow-down"></span> <span class="text-danger">' + $(this).text() + '</span>')
+                                            .html('<span class="fas fa-list-ol"></span> <span class="text-success"> ' + $('#select_node_id_label').html() + '</span> <span class="fas fa-long-arrow-alt-down"></span> <span class="text-danger">' + $(this).text() + '</span>')
                                             .parent().removeClass('hide');
                                         $('#action_as_sibling_up')
-                                            .html('<span class="fa fa-list-ol"></span> <span class="text-success"> ' + $('#select_node_id_label').html() + '</span> <span class="fa fa-long-arrow-up"></span> <span class="text-danger">' + $(this).text() + '</span>')
+                                            .html('<span class="fas fa-list-ol"></span> <span class="text-success"> ' + $('#select_node_id_label').html() + '</span> <span class="fas fa-long-arrow-alt-up"></span> <span class="text-danger">' + $(this).text() + '</span>')
                                             .parent().removeClass('hide');
                                         $('div').filter(function () {
                                             return this.id.match(/node\-\d+/);
@@ -426,8 +644,7 @@
                                 }
                             });
                         }
-                    }
-                    else if ($(this).hasClass('btn-success')) {
+                    } else if ($(this).hasClass('btn-success')) {
                         $(this).switchClass('btn-success', 'btn-default');
                     }
                 });
@@ -546,47 +763,24 @@
             }
 
             function newProductInCatAjaxFormInit(form) {
-            
+
                 var rp = getRouteParams();
                 var options = {
-                    target: '#action_add_quick_product_cantainer',
+                    target: '#action_add_quick_product_form_cantainer',
                     url: '{{ path('product_index_ajax') }}newincategory/' + rp[0],
                     success: function () {
                         newProductInCatAjaxFormInit($(this).parent().find('form').first());
-                        initSmallButtons();
                         getProducts();
                         initBigButtons();
+                        initSmallButtons();
                     }
                 };
 
                 $(form).ajaxForm(options);
             }
 
-            function initSmallButtons() {
-                $('li').filter(function () {
-                    return this.id.match(/productsmall\-\d+/);
-                }).each(function () {
-                    var id = $(this).attr('id').split('-')[1];
-                    var inproduct = $('#product-' + id);
-                    inproduct.off('click');
-                    inproduct.addClass('inproduct-click');
-                    inproduct.css({'cursor': 'default'});
-                    inproduct.parent().addClass('inproduct');
-                    removeButtonAjax(this)
-                });
-            }
-
-            function initBigButtons() {
-                $('div').filter(function () {
-                    return this.id.match(/product\-\d+/);
-                }).each(function () {
-                    var button = '#product-' + $(this).attr('id').split('-')[1];
-                    enableToAddButton(button);
-                });
-            }
-
             function removeButtonAjax(btnParent) {
-                $(btnParent).children().last().off('click').on('click', null, function (event) {
+                $(btnParent).children('button.btn-warning').last().off('click').on('click', null, function (event) {
                     var id = $(this).parent().attr('id').split('-')[1];
                     var rp = getRouteParams();
                     $.ajax({
@@ -594,8 +788,8 @@
                         url: '{{ path('product_index_ajax') }}removeproduct/' + rp[0] + '/' + id
                     }).done(function (data) {
                         $('#productsmall-' + id).remove();
-                        $('#product-' + id).removeClass('inproduct-click');
-                        var b = '#product-' + id;
+                        $('#phome-' + id).removeClass('inproduct-click');
+                        var b = '#phome-' + id;
                         enableToAddButton(b);
                     }).fail(function (jqXHR, textStatus, errorThrown) {
                         $('#action_as_sibling_up_dialog').dialog();
@@ -603,92 +797,78 @@
                 });
             }
 
-            function enableToAddButton(product) {
-                $(product).off('click').on('click', null, function (event) {
-                    if ($(this).hasClass('inproduct-click')) {
-                        $(this).off('click');
-                    }
-                    else {
-                        $(this).addClass('inproduct-click').css({'cursor': 'default'});
-                        var rp = getRouteParams();
-                        var rpp = getProductRouteParams(product);
+            function showMediaButtonAjax(btnParent) {
+                $(btnParent).children('button.btn-default').last().off('click').on('click', null, function (event) {
+                    var id = $(this).parent().attr('id').split('-')[1];
+                    var rp = getRouteParams();
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ path('product_index_ajax') }}showmediaproduct/' + id
+                    }).done(function (data) {
+                        $('#slot_gallery_container').removeClass('hide').html(data);
+                        $('#gallery').each(function () {
+                            blueimpgallery('gallery');
+                        });
+
+                        $('#tabs').each(function () {
+                            $(this).tabs();
+                        });
+
+                        //------------------------------------------------------------------
+                        // Enable iframe cross-domain access via redirect option:
+                        //#btnAjaxShowNewMediaForm
+
+                        $('#btnAjaxShowNewMediaForm').on("click", null, function (e) {
+                            if ($(this).hasClass('btn-default')) {
+                                btnShowUpload(this, id);
+                            } else if ($(this).hasClass('btn-success')) {
+                                btnHideUpload(this);
+                            }
+                        });
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#action_as_sibling_up_dialog').dialog();
+                    });
+                });
+            }
+
+            function ajaxSortLinksCategoryAdmin(selector) {
+                $(selector).find('a').each(function () {
+                    $(this).off('click').on('click', null, function (e) {
+                        e.preventDefault();
+                        var url = $(this).attr('href');
                         $.ajax({
                             type: 'post',
-                            url: '{{ path('product_index_ajax') }}addproduct/' + rp[0] + '/' + rpp
+                            url: url
                         }).done(function (data) {
-                            $('#action_add_product_small_container').html(data).removeClass('hide');
+                            $('#products-container').html(data);
+                            ajaxSortLinksCategoryAdmin('#container-sort-link');
+                            ajaxPaginationMedias('#medias-pagination-up');
+                            ajaxPaginationMedias('#medias-pagination');
+                            //ajaxDeleteBtn();
+                            //ajaxGetPdfBtn();
                             initSmallButtons();
+                            initBigButtons();
                         }).fail(function (jqXHR, textStatus, errorThrown) {
-                            $('#action_as_sibling_up_dialog').dialog();
-                        });
-                    }
-
-                });
-            }
-
-            function prepareNextLink() {
-                $("a[rel*='next']").each(function () {
-                    var linknext = $(this).attr('href');
-                    var tenplate = '<a id="temporaryNextLink" href="' + linknext + '">Next</a>'
-                    $(tenplate).appendTo("#product_scroll_pagination");
-                    $('ul.pagination').remove();
-                });
-            }
-
-            function getProducts() {
-                $.ajax({
-                    type: 'post',
-                    url: '{{ path('product_index_ajax') }}'
-                }).done(function (data) {
-
-                    $('#action_add_product_container').html(data).removeClass('hide');
-                    initBigButtons();
-                    initSmallButtons();
-                    ajaxSortLinks('#products-paginated-sort-links');
-                    ajaxPagination('#products_paginated_up');
-                    ajaxPagination('#products_paginated_down');
-                    //prepareNextLink();
-                    //https://github.com/infinite-scroll/infinite-scroll    
-
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    $('#action_as_sibling_up_dialog').dialog();
-                });
-            }
-
-            function ajaxSortLinks(selector) {
-                $(selector).find('a').each(function () {
-                    $(this).off('click').on('click', null, function (event) {
-                        event.preventDefault();
-                        var url = $(this).attr('href');
-                        $.ajax({type: 'post', url: url})
-                            .done(function (data) {
-                                $('#action_add_product_container').html(data);
-                                ajaxSortLinks('#products-paginated-sort-links');
-                                ajaxPagination('#products_paginated_up');
-                                ajaxPagination('#products_paginated_down');
-                                initSmallButtons();
-                                initBigButtons();
-                            }).fail(function (jqXHR, textStatus, errorThrown) {
                             $('#error-dialog').dialog();
                         });
                     });
                 });
             }
 
-            function ajaxPagination(paginContainer) {
+            function ajaxPaginationCategoryAdmin(paginContainer) {
                 $(paginContainer).find('ul').each(function () {
                     $(this).children().each(function () {
-                        $(this).children().first('a').off('click').on('click', null, function (event) {
-                            event.preventDefault();
+                        $(this).children().first('a').off('click').on('click', null, function (e) {
+                            e.preventDefault();
                             var url = $(this).attr('href');
                             $.ajax({
                                 type: 'post',
                                 url: url
                             }).done(function (data) {
                                 $('#action_add_product_container').html(data);
-                                ajaxSortLinks('#products-paginated-sort-links');
-                                ajaxPagination('#products_paginated_up');
-                                ajaxPagination('#products_paginated_down');
+                                ajaxSortLinksCategoryAdmin('#products-paginated-sort-links');
+                                ajaxPaginationCategoryAdmin('#products_paginated_up');
+                                ajaxPaginationCategoryAdmin('#products_paginated_down');
                                 initSmallButtons();
                                 initBigButtons();
                             }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -699,5 +879,73 @@
                 });
             }
 
-        </script>
-    {% endblock %}
+            function enableToAddButton(product) {
+                $(product).off('click').on('click', null, function (event) {
+                    if ($(this).hasClass('inproduct-click')) {
+                        $(this).off('click');
+                    } else {
+                        $(this).addClass('inproduct-click').css({'cursor': 'default'});
+                        var rp = getRouteParams();
+                        var rpp = getProductRouteParams(product);
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ path('product_index_ajax') }}addproduct/' + rp[0] + '/' + rpp
+                        }).done(function (data) {
+                            $('#action_add_product_small_container').html(data).removeClass('hide');
+                            initSmallButtons();
+                            initBigButtons();
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            $('#action_as_sibling_up_dialog').dialog();
+                        });
+                    }
+
+                });
+            }
+
+            function initSmallButtons() {
+                $('li').filter(function () {
+                    return this.id.match(/productsmall\-\d+/);
+                }).each(function () {
+                    var id = $(this).attr('id').split('-')[1];
+                    var inproduct = $('#phome-' + id);
+                    inproduct.off('click');
+                    inproduct.addClass('inproduct-click');
+                    inproduct.css({'cursor': 'default'});
+                    inproduct.parent().addClass('inproduct');
+                    removeButtonAjax(this);
+                    showMediaButtonAjax(this);
+                });
+            }
+
+            function initBigButtons() {
+                $('#action_add_product_container').find('div.thumbnail').each(function () {
+                    var button = '#phome-' + $(this).attr('id').split('-')[1];
+                    //console.log(button);
+                    enableToAddButton(button);
+                });
+            }
+
+            function getProducts() {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ path('product_index_ajax') }}'
+                }).done(function (data) {
+
+                    $('#action_add_product_container').html(data).removeClass('hide');
+
+                    ajaxSortLinksCategoryAdmin('#products-paginated-sort-links');
+                    ajaxPaginationCategoryAdmin('#products_paginated_up');
+                    ajaxPaginationCategoryAdmin('#products_paginated_down');
+                    initSmallButtons();
+                    initBigButtons();
+                    //https://github.com/infinite-scroll/infinite-scroll
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#action_as_sibling_up_dialog').dialog();
+                });
+            }
+
+        });
+    </script>
+{% endblock %}
+{#{% endif %}#}

@@ -5,23 +5,40 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>{{ category.title }}: Produkty</h1>
+    <h4>{{ category.title }}: Nowy</h4>
     {% form_theme edit_form with 'SulmiProductBundle:Product:form/fields.html.twig' %}
     <div class="row">
-        <div class="col-sm-12"> 
-            <h4>Nowy produkt</h4>
+        <div class="col-xs-12">
             {{ form_start(edit_form) }}
-            <button class="btn btn-default btn-sm" type="submit" >Akceptuj</button>
-            <a class="btn btn-default btn-sm" role="button" href="{{ path('sulmi_product_category_index') }}">Wszystkie kategorie</a>
-            {{ form_widget(edit_form) }}
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-success btn-sm" type="submit" >Akceptuj</button>
+                    <a class="btn btn-default btn-sm" role="button" href="{{ path('sulmi_product_category_index') }}">Wszystkie kategorie</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10">
+                    {{ form_row(edit_form.name) }}
+                </div>
+                <div class="col-xs-2">
+                    {{ form_row(edit_form.price) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(edit_form.description) }}
+                </div>
+            </div>
             {{ form_end(edit_form) }}
-        </div> 
+        </div>
     </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
-    {{ tinymce_init() }}
 {% endblock %}

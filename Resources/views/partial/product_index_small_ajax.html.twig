@@ -1,19 +1,24 @@
 {% if products is iterable %}
-    <div class="col-xs-12">
-        <ul class="list-group">
-            {% for product in products %}
-                {% spaceless %}
-                    <li class="list-group-item" id="productsmall-{{ product.id }}">            
-                        <span class="" style="max-width: 140px;">
-                            {{ render_product_media90(product) }}
-                        </span>
-                            <strong style="margin-left: 5px;">{{ product.name }}</strong>
-                        <span> Cena: {{ product.price }} PLN</span>
-                        <button class="btn btn-warning" style="position:absolute;right: 0px;bottom: 0px;"><span class="fa fa-trash"></span></button>
-                    </li>
-                {% endspaceless %}
-            {% endfor %}
-        </ul>  
-    </div>            
+    <ul class="list-group">
+        {% for product in products %}
+            {% spaceless %}
+                <li style="width: 100%;overflow: auto;" class="list-group-item" id="productsmall-{{ product.id }}">
+                    {% if app.request.locale == app.request.defaultLocale %}
+                    <span style="float: inline-start;"><a style="margin-right: 10px;float: inline-start;" href="{{ path('product_default', { 'id': product.id, 'slug': product.slug }) }}">
+                            {% else %}
+                                <span style="float: inline-start;"><a style="margin-right: 10px;float: inline-start;" href="{{ path('product_default_language', { 'id': product.id, 'slug': product.slug }) }}">
+                                    {% endif %}
+                                        {{ render_product_media90(product) }}
+                                </a></span>
+                            <strong style="margin-left: 5px;max-width: 60%;">{{ product.name }}</strong>
+                            <hr>
+                            <span style="max-width: 30%;"> Czas: {{ product.price | replace({'.': ','}) }} godz.</span>
+                            <button class="btn btn-default" style="position:absolute;right: 37px;bottom: 0px;"><span class="fas fa-file"></span></button>
+                            <button class="btn btn-warning" style="position:absolute;right: 0px;bottom: 0px;"><span class="fas fa-trash"></span></button>
+
+                </li>
+            {% endspaceless %}
+        {% endfor %}
+    </ul>
 {% endif %}
 

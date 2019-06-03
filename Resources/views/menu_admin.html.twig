@@ -34,15 +34,15 @@
         {# building the class of the item #}
         {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
         {%- if matcher.isCurrent(item) %}
-        {%- set classes = classes|merge([options.currentClass]) %}
+            {%- set classes = classes|merge([options.currentClass]) %}
         {%- elseif matcher.isAncestor(item, options.matchingDepth) %}
-        {%- set classes = classes|merge([options.ancestorClass]) %}
+            {%- set classes = classes|merge([options.ancestorClass]) %}
         {%- endif %}
         {%- if item.actsLikeFirst %}
-        {%- set classes = classes|merge([options.firstClass]) %}
+            {%- set classes = classes|merge([options.firstClass]) %}
         {%- endif %}
         {%- if item.actsLikeLast %}
-        {%- set classes = classes|merge([options.lastClass]) %}
+            {%- set classes = classes|merge([options.lastClass]) %}
         {%- endif %}
 
         {# Mark item as "leaf" (no children) or as "branch" (has children that are displayed) #}
@@ -52,28 +52,28 @@
             {% endif %}
         {% elseif options.leaf_class is not empty %}
             {%- set classes = classes|merge([options.leaf_class]) %}
-            {%- endif %}
+        {%- endif %}
 
-            {%- set attributes = item.attributes %}
-            {%- if classes is not empty %}
+        {%- set attributes = item.attributes %}
+        {%- if classes is not empty %}
             {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
-            {%- endif %}
-            {# displaying the item #}
-            {% import _self as knp_menu %}
-            <div>
-                {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
+        {%- endif %}
+        {# displaying the item #}
+        {% import _self as knp_menu %}
+        <div>
+            {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
                 {{ block('linkElement') }}
-                {%- else %}
+            {%- else %}
                 {{ block('spanElement') }}
-                {%- endif %}
-                {# render the list of children#}
-                {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
-                {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
-                {{ block('list') }}
-            </div>
-        {% endif %}
-        {% endblock %}
+            {%- endif %}
+            {# render the list of children#}
+            {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
+            {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
+            {{ block('list') }}
+        </div>
+    {% endif %}
+{% endblock %}
             {% block linkElement %}{% import _self as knp_menu %}
-                <div style="text-align: left;" id="node-{{ item.extras['routes'][0]['parameters']['id'] }}" class="btn btn-default btn-block"><span class="fa fa-gear"></span> {{ block('label')|raw }}</div>
+                <div style="text-align: left;" id="node-{{ item.extras['routes'][0]['parameters']['id'] }}" class="btn btn-default btn-block"><span class="fas fa-gear"></span> {{ block('label')|raw }}</div>
             {% endblock %}
             {% block spanElement %}<span>{{ block('label') }}</span>{% endblock %}

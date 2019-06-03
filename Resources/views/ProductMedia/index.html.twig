@@ -5,19 +5,22 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Lista mediów</h1>
-    <hr><a class="btn btn-success btn-sm" role="button" href="{{ path('productmedia_new') }}">Create a new productMedia</a><hr>
-    <div class="hide">        
+    <h4>Lista mediów</h4>
+    <hr><a class="btn btn-success btn-sm" role="button" href="{{ path('productmedia_new') }}">Nowe media</a><hr>
+    <div class="hide">
         <div id="images-dialog" class="container">Wiadomosc o nie udanej probie paginacji obrazkow</div>
-    </div>        
+    </div>
 
     <div class="row text-center" id="medias-container">
         {% include 'SulmiProductBundle::partial/media/media_images_paginated_ajax.html.twig' with { 'productMedias':productMedias } %}
     </div>
 {% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
     <script type="text/javascript">

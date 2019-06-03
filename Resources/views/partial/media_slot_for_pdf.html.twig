@@ -1,0 +1,31 @@
+{% if images is not null or videos is not null or medias is not null %}
+{% set hasmedia=true %}{% else %}{% set hasmedia=false %}    
+{% endif %}
+
+{% if images %}
+    <div class="container-fluid text-center" style="margin: 0px;">
+        {% for image in images if images %}
+            <img class="img-thumbnail" style="padding:7px;" src="{{ image.filePath | imagine_filter('product460') }}" alt="{{  image.filePath|replace({ 'upload\/': "" }) }}" />
+        {% endfor %}
+    </div>
+{% endif %}
+{% if videos %}
+    {% for video in videos %}
+        <div class="text-center full-left">
+            <video width="300" height="200" id="sampleMovie" src="/{{ video.filePath }}" controls></video>
+        </div>
+        <div class="text-center">
+            <a title="{{  video.filePath|replace({ 'upload\/': "" }) }}" class="links" href="/{{ video.filePath }}">
+                {{  video.filePath|replace({ 'upload\/': "" })|truncate(80) }}
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+{% if medias %}
+    {% for media in medias %}
+        {% if loop.index > 1 %}<hr>{% endif %}
+        <a class="linked" href="/{{ media.filePath }}">
+            {{  media.filePath | replace({ 'upload\/': "" }) }}
+        </a>
+    {% endfor %}
+{% endif %}

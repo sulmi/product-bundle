@@ -1,190 +1,289 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %} | Product{% endblock %}</title>
-        {% block stylesheets %}
-            {% stylesheets
-"@SulmiProductBundle/Resources/public/css/bootstrap.css" 
-"@SulmiProductBundle/Resources/public/css/font-awesome.min.css" 
-"@SulmiProductBundle/Resources/public/css/sticky-footer.css"
-"@SulmiProductBundle/Resources/public/css/jquery.smartmenus.bootstrap.css"
-"@SulmiProductBundle/Resources/public/css/jquery-ui.min.css"
-"@SulmiProductBundle/Resources/public/css/blueimp-gallery.min.css"
-"@SulmiProductBundle/Resources/public/css/blueimp-gallery-indicator.css"
-"@SulmiProductBundle/Resources/public/css/blueimp-gallery-video.css"
-"@SulmiProductBundle/Resources/public/css/style.css"
-            %}
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %} - TestinJobs{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets
+            "@SulmiProductBundle/Resources/public/css/bootstrap.css"
+            "@SulmiProductBundle/Resources/public/css/fontawesome-all.min.css"
+            "@SulmiProductBundle/Resources/public/css/sticky-footer.css"
+            "@SulmiProductBundle/Resources/public/css/jquery.smartmenus.bootstrap.css"
+            "@SulmiProductBundle/Resources/public/css/jquery-ui.min.css"
+            "@SulmiProductBundle/Resources/public/css/blueimp-gallery.min.css"
+            "@SulmiProductBundle/Resources/public/css/blueimp-gallery-indicator.css"
+            "@SulmiProductBundle/Resources/public/css/blueimp-gallery-video.css"
+            "@SulmiProductBundle/Resources/public/css/summernote.css"
+            "@SulmiProductBundle/Resources/public/css/style.css"
+        %}
             <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
-            {% endstylesheets %}
+        {% endstylesheets %}
 
-        {% endblock %}
+    {% endblock %}
 
-        {% block javascripts %}
-        {% endblock %}
-        {#  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />#}
-    </head>
-    <body>
-        {% block nav %}
-            <!-- Navbar fixed top -->
-            <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{{ path('sulmi_product_homepage_lang') }}">Product</a>
-                    </div>
-                    <div class="navbar-collapse collapse" id="navleft">
+    {% block javascripts %}
 
-                        <!-- Left nav -->
-                        {{ knp_menu_render('SulmiProductBundle:Builder:mesterMenu', {'currentClass': 'active', 'template': '@SulmiProductBundle/menu.html.twig'}) }}
-                        <!-- Right nav -->
-                        <ul class="nav navbar-nav navbar-right" id="navsearch">
-                            <li>
-                                {{ render(controller('SulmiProductBundle:ProductSearchDefault:renderBlankSearchForm')) }}
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right" id="navr">
-                            {% if not is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ path('security_login') }}"{{ app.request.get('_route') == 'security_login' ? ' class="active"' : '' }}><span class="fa fa-sign-in"></span> {{ 'login.label'|trans }}</a></li>
-                                {% else %}
+    {% endblock %}
+    {#  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />#}
+</head>
+<body>
+{% block nav %}
+    <!-- Navbar fixed top -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('sulmi_product_homepage_lang') }}">Product</a>
+            </div>
+            <div class="navbar-collapse collapse" id="navleft">
+
+                <!-- Left nav -->
+                {{ knp_menu_render('SulmiProductBundle:Builder:mesterMenu', {'currentClass': 'active', 'template': '@SulmiProductBundle/menu.html.twig'}) }}
+                <!-- Right nav -->
+                <ul class="nav navbar-nav navbar-right" id="navsearch">
+                    <li>
+                        {{ render(controller('SulmiProductBundle:ProductSearchDefault:renderBlankSearchForm')) }}
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" id="navr">
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('security_login') }}"{{ app.request.get('_route') == 'security_login' ? ' class="active"' : '' }}><span class="fas fa-user-plus"></span> {{ 'login.label'|trans }}</a></li>
+                    {% else %}
+                        <li>
+                            <a href="#"{{ app.request.get('_route') == 'security_logout' ? ' class="active"' : '' }}><span class="fas fa-paint-brush"></span> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('sulmi_product_category_index') }}">Kategorie</a></li>
                                 <li>
-                                    <a href="#"{{ app.request.get('_route') == 'security_logout' ? ' class="active"' : '' }}><span class="fa fa-paint-brush"></span> <span class="caret"></span></a>
+                                    <a href="{{ path('sulmi_product_index') }}"><span class="caret"></span> Produkty</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ path('sulmi_product_category_index') }}">Kategorie</a></li>
-                                        <li>
-                                            <a href="{{ path('sulmi_product_index') }}"><span class="caret"></span> Produkty</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{{ path('sulmi_product_product_new') }}"><span class="fa fa-plus-circle"> </span> Nowy</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('sulmi_product_productmedia_index') }}">Media</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('sulmi_product_userentity_index') }}">Users</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li class="dropdown-header">Strefa użytkownika</li>
-                                        <li>
-                                            <a href="{{ path('security_logout') }}"{{ app.request.get('_route') == 'security_logout' ? ' class="active"' : '' }}>{{ 'loginout.label'|trans }}</a>
-                                        </li>
+                                        <li><a href="{{ path('sulmi_product_product_new') }}"><span class="fas fa-plus-circle"> </span> Nowy</a></li>
                                     </ul>
                                 </li>
-                            {% endif %}
-                            {{ render_language_menu() }}
-                        </ul>
-                    </div><!--/.nav-collapse -->
-                </div><!--/.container -->
-            </div>
-        {% endblock %}
-        <div class="container" style="margin-top:70px;">
-            {% block search %}
-                <section id="search-results">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12" id="search-results">
-                                
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            {% endblock %}
-            {% block body %}
-{#                {{ render_language_menu() }}#}
-                {# {{ include('default/_flash_messages.html.twig') }} F#}
-            {% endblock %}
-        </div>
-        <footer class="footer">
+                                <li>
+                                    <a href="{{ path('sulmi_product_productmedia_index') }}">Media</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('sulmi_product_userentity_index') }}">Users</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="dropdown-header">Strefa użytkownika</li>
+                                <li>
+                                    <a href="{{ path('security_logout') }}"{{ app.request.get('_route') == 'security_logout' ? ' class="active"' : '' }}>{{ 'loginout.label'|trans }}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    {{ render_language_menu() }}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+    </div>
+{% endblock %}
+<div class="container" style="margin-top:70px;">
+    {% block search %}
+        <section id="search-results">
             <div class="container">
-                <span class="text-muted">Sumi Product Bundle 2017.</span>
+                <div class="row">
+                    <div class="col-md-12" id="search-results"></div>
+                </div>
             </div>
-        </footer>  
+        </section>
+    {% endblock %}
+    {% block body %}
+        {#                {{ render_language_menu() }}#}
+        {# {{ include('default/_flash_messages.html.twig') }} F#}
+    {% endblock %}
+</div>
+{% block footer %}
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">Created by <a href="https://github.com/sulmi/product-bundle" class="btn link">Sulmi Product Bundle 2018.</a></span>
+        </div>
+    </footer>
+{% endblock %}
 {#'@SulmiProductBundle/Resources/public/js/jquery.jscroll.min.js'#}
-        {% block footerjavascripts %}
-            {% javascripts 
-'@SulmiProductBundle/Resources/public/js/jquery-3.1.0.min.js'
-'@SulmiProductBundle/Resources/public/js/bootstrap.min.js' 
-'@SulmiProductBundle/Resources/public/js/jquery-ui.min.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.smartmenus.min.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.smartmenus.bootstrap.min.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.knob.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.ui.widget.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.iframe-transport.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.fileupload.js' 
-'@SulmiProductBundle/Resources/public/js/jquery.blueimp-gallery.min.js'
-'@SulmiProductBundle/Resources/public/js/blueimp-gallery.min.js'
-'@SulmiProductBundle/Resources/public/js/blueimp-gallery-fullscreen.js'
-'@SulmiProductBundle/Resources/public/js/blueimp-gallery-indicator.js'
-'@SulmiProductBundle/Resources/public/js/blueimp-gallery-video.js'
-'@SulmiProductBundle/Resources/public/js/blueimp-gallery-vimeo.js'
-'@SulmiProductBundle/Resources/public/js/blueimp-gallery-youtube.js'
-'@SulmiProductBundle/Resources/public/js/demo.js'
-'@SulmiProductBundle/Resources/public/js/form.js'
-'@SulmiProductBundle/Resources/public/js/jquery.infinitescroll.min.js'
-            %}
-            <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-            <script type="text/javascript">
-                $(function () {
-                    ajaxSortLinks('#container-sort-link');
-                    ajaxPaginationMedias('#medias-pagination-up');
-                    ajaxPaginationMedias('#medias-pagination');
+{% block footerjavascripts %}
+    {% javascripts
+        '@SulmiProductBundle/Resources/public/js/jquery-3.1.0.min.js'
+        '@SulmiProductBundle/Resources/public/js/bootstrap.min.js'
+        '@SulmiProductBundle/Resources/public/js/jquery-ui.min.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.smartmenus.min.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.smartmenus.bootstrap.min.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.knob.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.ui.widget.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.iframe-transport.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.fileupload.js'
+        '@SulmiProductBundle/Resources/public/js/jquery.blueimp-gallery.min.js'
+        '@SulmiProductBundle/Resources/public/js/blueimp-gallery.min.js'
+        '@SulmiProductBundle/Resources/public/js/blueimp-gallery-fullscreen.js'
+        '@SulmiProductBundle/Resources/public/js/blueimp-gallery-indicator.js'
+        '@SulmiProductBundle/Resources/public/js/blueimp-gallery-video.js'
+        '@SulmiProductBundle/Resources/public/js/blueimp-gallery-vimeo.js'
+        '@SulmiProductBundle/Resources/public/js/blueimp-gallery-youtube.js'
+        '@SulmiProductBundle/Resources/public/js/demo.js'
+        '@SulmiProductBundle/Resources/public/js/form.js'
+        '@SulmiProductBundle/Resources/public/js/summernote.js'
+        '@SulmiProductBundle/Resources/public/js/summernote-pl-PL.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        ajaxSortLinks('#container-sort-link');
+        ajaxSortLinks('#products-paginated-sort-links');
+        ajaxPagination('#products_paginated_up');
+        ajaxPagination('#products_paginated_down');
+        ajaxDeleteBtn();
+        ajaxGetPdfBtn();
+        $('#navsearch').find('form').each(function () {
+            $(this).ajaxForm({
+                target: '#search-results',
+                url: '{{ path('search_default_language') }}',
+                success: function (data) {
+                }
+            });
+        });
 
-                    $('#navsearch').find('form').each(function () {
-                        $(this).ajaxForm({
-                            target: '#search-results',
-                            url: '{{ path('search_default_language') }}',
-                            success: function (data) {
-                            }
+        $('textarea.tinymce').summernote({
+            height: 500,
+            airMode: false
+        });
+
+
+        function ajaxDeleteBtn() {
+            $('.prodquickremove').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    $('#delete_product_with_ajax_temp').text($(this).attr('href'));
+                    $('#action_remove_product_with_ajax_dialog')
+                        .dialog({
+                            buttons:
+                                [{
+                                    text: "Usuń produkt",
+                                    icons: {primary: "ui-icon-check"},
+                                    click: function () {
+                                        $.ajax({
+                                            type: 'post',
+                                            url: $('#delete_product_with_ajax_temp').text()
+                                        })
+                                            .done(function (data) {
+                                                $('#phome-' + data).hide();
+                                                $('#action_remove_product_with_ajax_dialog').dialog("close");
+                                            })
+                                            .fail(function (jqXHR, textStatus, errorThrown) {
+                                                $('#error-dialog').dialog();
+                                            });
+                                    }
+                                },
+                                    {
+                                        text: "Anuluj",
+                                        icons: {primary: "ui-icon-close"},
+                                        click: function () {
+                                            $('#action_remove_product_with_ajax_dialog').dialog("close");
+                                        }
+                                    }]
+                        });
+                });
+            });
+        }
+        function ajaxGetPdfBtn() {
+            $('.prodquickgetpdf').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    $('#getpdf_product_with_ajax_temp').text($(this).attr('href'));
+                    $('#action_getpdf_product_with_ajax_dialog')
+                        .dialog({
+                            buttons:
+                                [{
+                                    text: "Pobierz Pdf",
+                                    icons: {primary: "ui-icon-check"},
+                                    click: function () {
+                                        //$('#getpdf-temp-link').remove();
+                                        //$('#products-container').prepend('<form method="get" action="' + $('#getpdf_product_with_ajax_temp').text() + '"><button id="getpdf-temp-link" type="submit">Download!</button></form>');
+                                        $('#action_getpdf_product_with_ajax_dialog').dialog("close");
+                                        //$('#getpdf-temp-link').click();
+
+                                        var handler = $('[href="' + $('#getpdf_product_with_ajax_temp').text() + '"]');
+                                        handler.prev('form').remove();
+                                        //.parent().css('backgroundColor','red');
+                                        //.before('<a style="position: absolute;right: 130px;bottom: 0px;" class="btn btn-default" role="button"><span class="fas fa-file-pdf"></span></a>');
+                                        handler.before('<form method="get" \n\
+action="' + $('#getpdf_product_with_ajax_temp').text() + '" style="position: absolute;right: 117px;bottom: 0px;">\n\
+<button \n\
+type="submit" \n\
+class="btn btn-default">\n\
+<span class="fas fa-download"></span>\n\
+</button>\n\
+</form>');
+                                        handler.prev('form').submit();
+                                    }
+                                },
+                                    {
+                                        text: "Anuluj",
+                                        icons: {primary: "ui-icon-close"},
+                                        click: function () {
+                                            $('#action_getpdf_product_with_ajax_dialog').dialog("close");
+                                        }
+                                    }]
+                        });
+                });
+            });
+        }
+
+        function ajaxSortLinks(selector) {
+            $(selector).find('a').each(function () {
+                $(this).off('click').on('click', null, function (event) {
+                    event.preventDefault();
+                    var url = $(this).attr('href');
+                    $.ajax({
+                        type: 'post',
+                        url: url
+                    }).done(function (data) {
+                        $('#products-container').html(data);
+                        ajaxSortLinks('#container-sort-link');
+                        ajaxPagination('#products_paginated_up');
+                        ajaxPagination('#products_paginated_down');
+                        ajaxDeleteBtn();
+                        ajaxGetPdfBtn();
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        $('#error-dialog').dialog();
+                    });
+                });
+            });
+        }
+
+        function ajaxPagination(paginContainer) {
+            $(paginContainer).find('ul').each(function () {
+                $(this).children().each(function () {
+                    $(this).children().first('a').off('click').on('click', null, function (event) {
+                        event.preventDefault();
+                        var url = $(this).attr('href');
+                        $.ajax({
+                            type: 'get',
+                            url: url
+                        }).done(function (data) {
+                            $('#products-container').html(data);
+                            ajaxSortLinks('#products-paginated-sort-links');
+                            ajaxPagination('#products_paginated_up');
+                            ajaxPagination('#products_paginated_down');
+                            ajaxDeleteBtn();
+                            ajaxGetPdfBtn();
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            $('#error-dialog').dialog();
                         });
                     });
                 });
-                function ajaxSortLinks(selector) {
-                    $(selector).find('a').each(function () {
-                        $(this).off('click').on('click', null, function (event) {
-                            event.preventDefault();
-                            var url = $(this).attr('href');
-                            $.ajax({
-                                type: 'post',
-                                url: url
-                            }).done(function (data) {
-                                $('#products-container').html(data);
-                                ajaxSortLinks('#container-sort-link');
-                                ajaxPaginationMedias('#medias-pagination-up');
-                                ajaxPaginationMedias('#medias-pagination');
-                            }).fail(function (jqXHR, textStatus, errorThrown) {
-                                $('#error-dialog').dialog();
-                            });
-                        });
-                    });
-                }
-                function ajaxPaginationMedias(paginContainer) {
-                    $(paginContainer).find('ul').each(function () {
-                        $(this).children().each(function () {
-                            $(this).children().first('a').off('click').on('click', null, function (event) {
-                                event.preventDefault();
-                                var url = $(this).attr('href');
-                                $.ajax({
-                                    type: 'post',
-                                    url: url
-                                }).done(function (data) {
-                                    $('#products-container').html(data);
-                                    ajaxSortLinks('#container-sort-link');
-                                    ajaxPaginationMedias('#medias-pagination-up');
-                                    ajaxPaginationMedias('#medias-pagination');
-                                }).fail(function (jqXHR, textStatus, errorThrown) {
-                                    $('#error-dialog').dialog();
-                                });
-                            });
-                        });
-                    });
-                }
-            </script>
-        {% endblock %}
-    </body>
+            });
+        }
+    </script>
+{% endblock %}
+<div title="Usuwanie produktu" id="action_remove_product_with_ajax_dialog" class="hide"><span class="fa fa-remove"></span> Napewno usunąć produkt?</div>
+<div title="Pobieranie w postaci Pdf" id="action_getpdf_product_with_ajax_dialog" class="hide"><span class="fas fa-file-pdf"></span> kliknij aby pobrac?</div>
+<div id="delete_product_with_ajax_temp" class="hide"></div>
+<div id="getpdf_product_with_ajax_temp" class="hide"></div>
+</body>
 </html>

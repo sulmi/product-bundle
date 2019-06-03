@@ -1,23 +1,17 @@
 {% extends '@SulmiProductBundle/base.html.twig' %}
-{% block title %} {{ 'product.list'|trans }}{{ parent() }}{% endblock %}
+{% block title %} Nowe media{{ parent() }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Productmedia creation</h1>
-
+    <h4>Dodaj nowe media</h4>
     {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+    {{ form_widget(form) }}
+    <input type="submit" value="Dodaj media" />
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('sulmi_product_productmedia_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <a class="btn btn-sm btn-info" role="button" href="{{ path('sulmi_product_productmedia_index') }}">Lista mediów</a>
 {% endblock %}

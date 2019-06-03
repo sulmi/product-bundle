@@ -5,24 +5,40 @@
     {{ parent() }}
 {% endblock %}
 {% block nav %}
-    {{ parent() }} 
+    {{ parent() }}
 {% endblock %}
 {% block body %}
-    <h1>Product creation</h1>
+    <h4>Nowy</h4>
     {% form_theme form with ['SulmiProductBundle:Product:form/fields.html.twig'] %}
-    <div class="col-md-12"> 
-        {{ form_start(form) }}
-        <input type="submit" value="Dodaj nowy" />
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
-    </div> 
-    <div class="col-md-12">
-        {# Ajax response cantainer #}
-        <a class="btn btn-default btn-sm" href="{{ path('sulmi_product_index') }}">Back to the list</a>
-        <div class="row" id="newMediaFormSlot"></div>
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-success btn-sm outline pull-left" name="submit" type="submit">Akceptuj nowy</button>
+                    <a class="btn btn-default btn-sm outline pull-left" href="{{ path('sulmi_product_index') }}">{{ 'action.back_to_product_list' | trans }}</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-xs-2">
+                    {{ form_row(form.price) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
 {% endblock %}
 {% block footerjavascripts %}
     {{ parent() }}
-    {{ tinymce_init() }}
 {% endblock %}

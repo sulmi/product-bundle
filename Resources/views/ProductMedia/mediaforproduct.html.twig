@@ -1,17 +1,17 @@
 {% extends '@SulmiProductBundle/base.html.twig' %}
 
 {% block body %}
-    <h1>Productmedia list for spec Product</h1>
+    <h1>Media dla Produktu</h1>
 
     <table>
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Filepath</th>
-                <th>Size</th>
-                <th>Mime</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Filepath</th>
+            <th>Size</th>
+            <th>Mime</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for productMedia in productMedia %}
@@ -37,7 +37,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('productmedia_new') }}">Create a new productMedia</a>
+            <a href="{{ path('productmedia_new') }}">Nowe media</a>
         </li>
     </ul>
 {% endblock %}
